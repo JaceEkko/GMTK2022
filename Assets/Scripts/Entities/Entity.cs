@@ -5,8 +5,9 @@ using UnityEngine;
 public class Entity : MonoBehaviour
 {
     string name;
-    EntityType type;
-
+    float healthPoints;
+    public EntityType type;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -17,5 +18,10 @@ public class Entity : MonoBehaviour
     void Update()
     {
         
+    }
+
+    IEnumerator RunTurn() {
+        Debug.Log("Running Turn");
+        yield return null;
     }
 }
