@@ -7,6 +7,8 @@ public class Entity : MonoBehaviour
     float healthPoints;
     public EntityType type;
 
+    public Vector2Int coords { get; set; }
+
     public float HealthPoints { get => healthPoints; set => healthPoints = value; }
 
     void Awake()
@@ -25,5 +27,9 @@ public class Entity : MonoBehaviour
             Debug.Log(this.name + " Running Turn");
             yield return null;
         }
+    }
+
+    public void UpdatePosition() {
+        transform.position = new Vector3(coords.x, coords.y);
     }
 }

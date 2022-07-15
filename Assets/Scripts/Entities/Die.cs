@@ -4,13 +4,24 @@ using UnityEngine;
 
 public class Die : MovableEntity
 {
+    private Character owner;
+    private bool isThrown;
+
     private void Awake()
     {
-        type = EntityType.Die;
+        type = EntityType.Dice;
     }
 
     public override IEnumerator RunTurn()
     {
         return base.RunTurn();
     }
+
+    public Entity GetOwner() {
+        return owner;
+    }
+
+    public bool IsThrown() {
+        return isThrown;
+	}
 }
