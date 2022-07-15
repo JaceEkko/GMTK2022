@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
+    string name;
+    EntityType type;
+
     // Start is called before the first frame update
     void Start()
     {
