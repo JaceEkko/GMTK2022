@@ -4,5 +4,13 @@ using UnityEngine;
 
 public class Die : MovableEntity
 {
-    
+    private void Awake()
+    {
+        type = EntityType.Die;
+    }
+
+    public override IEnumerator RunTurn()
+    {
+        return base.RunTurn();
+    }
 }

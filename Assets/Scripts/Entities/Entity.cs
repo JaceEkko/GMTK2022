@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
-    string name;
     float healthPoints;
     public EntityType type;
-    
-    // Start is called before the first frame update
-    void Start()
+
+    public float HealthPoints { get => healthPoints; set => healthPoints = value; }
+
+    void Awake()
     {
-        
+        type = EntityType.IndestructibleObj;
     }
 
     // Update is called once per frame
@@ -20,8 +20,10 @@ public class Entity : MonoBehaviour
         
     }
 
-    IEnumerator RunTurn() {
-        Debug.Log("Running Turn");
-        yield return null;
+    public virtual IEnumerator RunTurn() {
+        while (!Input.GetKeyDown(KeyCode.Space)) {
+            Debug.Log(this.name + " Running Turn");
+            yield return null;
+        }
     }
 }

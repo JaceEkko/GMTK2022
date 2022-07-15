@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class Character : MovableEntity
 {
-   
+    void Awake()
+    {
+        type = EntityType.Enemy;
+    }
 }
