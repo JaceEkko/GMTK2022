@@ -94,20 +94,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 1177333005036468474}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5137b2b463be33c49a237076ce5aec9a, type: 3}
+  m_Script: {fileID: 11500000, guid: 65e7fde393b088842892399673099e16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 1
-  moveDuration: 0
-  turnDuration: 0
+  type: 3
+  IsTakingTurn: 1
+  moveDuration: 0.1
+  turnDuration: 0.1
   dice:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  visionType: 0
-  visionRange: 0
+  visionRange: 10
+  visionAngle: 65
+  diceThrowRange: 7
+  heldDice: []
+  desiredDistToPlayer: 4
 --- !u!1 &5470180925776519553
 GameObject:
   m_ObjectHideFlags: 0

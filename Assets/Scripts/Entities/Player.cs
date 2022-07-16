@@ -5,9 +5,9 @@ using UnityEngine.InputSystem;
 
 public class Player : Character
 {
-    CharacterInputs characterInput;
+    private CharacterInputs characterInput;
 
-    bool isThrowDiePressed = false;
+    private bool isThrowDiePressed = false;
 
     void Awake()
     {
@@ -52,10 +52,9 @@ public class Player : Character
 
     public override IEnumerator RunTurn()
     {
-        yield return StartCoroutine(base.RunTurn());
-        while (!hasCompletedTurn) {
+        while (IsTakingTurn) {
             if (isThrowDiePressed)
-                hasCompletedTurn = true;
+                IsTakingTurn = false;
 
             Vector2 intendedDirection = GetMovementDirection();
             if(intendedDirection.magnitude > 0) {

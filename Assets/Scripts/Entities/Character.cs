@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character : MovableEntity
+public abstract class Character : MovableEntity
 {
     [SerializeField] GameObject[] dice = new GameObject[5];
     GameObject currentDieInHand;

@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovableEntity : Entity
+public abstract class MovableEntity : Entity
 {
     //How long it takes (realtime) to animate moving between two tiles
     [Header("Movement Variables")]
-    [SerializeField] private float moveDuration;
-    [SerializeField] private float turnDuration;
+    [SerializeField] private float moveDuration = 0.1f;
+    [SerializeField] private float turnDuration = 0.1f;
 
     private void Awake()
     {
@@ -31,7 +31,7 @@ public class MovableEntity : Entity
             yield return new WaitForEndOfFrame();
 		}
         UpdatePosition();
-        hasCompletedTurn = true;
+        IsTakingTurn = false;
     }
     protected virtual IEnumerator SmoothRotate(Vector2Int direction) {
         float originalRotation = transform.eulerAngles.y;
@@ -43,5 +43,6 @@ public class MovableEntity : Entity
             timer += Time.deltaTime;
             yield return new WaitForEndOfFrame();
 		}
+        transform.eulerAngles = new Vector3(0, goalRotation, 0);
 	}
 }

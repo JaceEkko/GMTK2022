@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2937055546310528577}
   - component: {fileID: 2937055546310528576}
   - component: {fileID: 2937055546310528607}
+  - component: {fileID: 8543325181016016801}
   - component: {fileID: 2937055546310528606}
   - component: {fileID: 2937055546310528605}
   m_Layer: 0
@@ -86,6 +87,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &8543325181016016801
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2937055546310528604}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2937055546310528606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100,7 +115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   moveDuration: 0.1
-  turnDuration: 0.05
+  turnDuration: 0.1
   dice:
   - {fileID: 0}
   - {fileID: 0}

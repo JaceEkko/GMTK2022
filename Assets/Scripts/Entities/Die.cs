@@ -25,7 +25,7 @@ public class Die : MovableEntity
 
     public override IEnumerator RunTurn()
     {
-        return base.RunTurn();
+        yield return null;
     }
 
     public Entity GetOwner() {

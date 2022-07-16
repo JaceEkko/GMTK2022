@@ -143,7 +143,7 @@ public class GridManager : MonoBehaviour {
         return diceInRange;
 	}
 
-    public Vector2Int GetMouseCoords() {
+	public Vector2Int GetMouseCoords() {
         return WorldspaceToCoords(tileHighlighter.transform.position);
 	}
     public Entity GetEntityUnderMouse() {
@@ -151,7 +151,8 @@ public class GridManager : MonoBehaviour {
         return physicalEntityMap[coords.x, coords.y];
 	}
 
-    public static Vector2Int WorldspaceToCoords(Vector2 worldspace) {
+    #region static helper methods
+	public static Vector2Int WorldspaceToCoords(Vector2 worldspace) {
         return new Vector2Int((int)Mathf.Round(worldspace.x), (int)Mathf.Round(worldspace.y));
     }
     public static Vector2Int WorldspaceToCoords(Vector3 worldspace) {
@@ -189,4 +190,5 @@ public class GridManager : MonoBehaviour {
         Debug.LogError("Invalid direction given");
         return 0;
     }
+    #endregion
 }

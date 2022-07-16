@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class NonPhysical : Entity
 {
-    void Awake()
+	void Awake()
     {
         type = EntityType.NonPhysical;
+    }
+
+    public override IEnumerator RunTurn() {
+        throw new System.NotImplementedException();
     }
 }

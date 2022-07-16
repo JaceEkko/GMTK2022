@@ -14,7 +14,6 @@ public class TurnManager : MonoBehaviour
     public List<MovableEntity> allDie = new List<MovableEntity>();
 
     public List<MovableEntity> turnPrecedence = new List<MovableEntity>();
-    int enitytInTurn = 0;
 
     public roundState CurrentRoundState { get => currentRoundState; set => currentRoundState = value; }
 
@@ -32,27 +31,17 @@ public class TurnManager : MonoBehaviour
         StartCoroutine(RoundStart());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     IEnumerator RoundStart() {
         while (true) {
             currentRound += 1;
-            enitytInTurn = 0;
             Debug.Log("Round " + currentRound + " Start!!");
-            yield return StartCoroutine(NextTurn());
+            foreach (Entity entity in turnPrecedence) {
+                Debug.Log(entity.name + " taking turn");
+                entity.IsTakingTurn = true;
+                yield return StartCoroutine(entity.RunTurn());
+                entity.IsTakingTurn = false;
+            }
             Debug.Log("End Round " + currentRound + "!!");
-            yield return new WaitForSeconds(2f);
-        }
-    }
-    IEnumerator NextTurn() {
-        while (enitytInTurn != turnPrecedence.Count) {
-            yield return StartCoroutine(turnPrecedence[enitytInTurn].RunTurn());
-            StopCoroutine(turnPrecedence[enitytInTurn].RunTurn());
-            enitytInTurn += 1;
         }
     }
 
