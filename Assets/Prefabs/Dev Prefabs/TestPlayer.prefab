@@ -118,12 +118,8 @@ MonoBehaviour:
   IsTakingTurn: 1
   moveDuration: 0.1
   turnDuration: 0.1
-  dice:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  dice: []
+  currentDieLoc: {fileID: 8934036899583259032}
   currentDieInHand: {fileID: 0}
   currentDieIndex: 0
 --- !u!114 &2937055546310528605
