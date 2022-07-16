@@ -4,10 +4,13 @@ using UnityEngine;
 
 public abstract class Character : MovableEntity
 {
-    [SerializeField] GameObject[] dice = new GameObject[5];
-    GameObject currentDieInHand;
-    int currentDieIndex = 0;
+    [SerializeField] List<GameObject> dice = new List<GameObject>();
+    GameObject currentDieLoc;
+    [SerializeField] GameObject currentDieInHand;
+    [SerializeField] int currentDieIndex = 0;
 
+    public GameObject CurrentDieLoc { get => currentDieLoc; set => currentDieLoc = value; }
+    public GameObject CurrentDieInHand { get => currentDieInHand; set => currentDieInHand = value; }
     public int CurrentDieIndex { get => currentDieIndex; set => currentDieIndex = value; }
 
     private void Awake()
@@ -15,58 +18,47 @@ public abstract class Character : MovableEntity
         type = EntityType.Enemy;
     }
 
-    public void EquipDie(int _dieIndex) {
+    public void EquipDie(int _dieIndex, int _scrollDir = 1) {
+        if (dice.Count == 0) { return; }
+        var dieMr = currentDieInHand.GetComponent<Die>().DieMR;
+        if(dieMr) dieMr.enabled = false;
+        //Make sure The _dieIndex doesn't fall out of range
         if (_dieIndex < 0) {
+            _dieIndex = dice.Count - 1;
+        } else if (_dieIndex >= dice.Count) {
             _dieIndex = 0;
-        } else if (_dieIndex >= dice.Length) {
-            _dieIndex = dice.Length - 1;
         }
-        /*if (_dieIndex < 0 || _dieIndex > dice.Length) {
-            Debug.LogError(name + ": _dieIndex falls out of range _dieIndex = " + _dieIndex);
-            return;
-        }*/
-
-        GameObject selectedDie;
+        
+        //Determine Which Die will be Selected
+        GameObject selectedDie = null;
         if (dice[_dieIndex]) { //Equip the Die
             selectedDie = dice[_dieIndex];
             currentDieIndex = _dieIndex;
         }
-        else {  //There is No Die at the selected Index position
-            //Debug.LogError(name + ": There is no Die to select at position " + _dieIndex);
-            selectedDie = getNextAvailableDie(_dieIndex);
-        }
+
         currentDieInHand = selectedDie;
+        currentDieInHand.GetComponent<Die>().DieMR.enabled = true;
         Debug.Log(name + " has selected " + currentDieInHand.name);
     }
-    GameObject getNextAvailableDie(int _dieIndex) {
-        int newIndex = _dieIndex;
-        GameObject nextDie = null;
-        while (!nextDie) {
-            newIndex += 1;
-            if (newIndex >= dice.Length) { newIndex = 0; }
-            if (dice[newIndex]) {
-                nextDie = dice[newIndex];
-            }
-        }
-        return nextDie;
-    }
-
+    
     //Method(s) to Add Dice to your Inventory
-    public void AddDieToInventory(GameObject _die)
+    public void AddNewDieToInventory(GameObject _die)
     {
-        for (int i = 0; i < dice.Length; i++){
-            if (!dice[i]) {
-                dice[i] = _die;
-                Die diceData = _die.GetComponent<Die>();
-                diceData.InventorySlot = i;
-                diceData.enabled = false;
-                Debug.Log("Added " + _die.name + " to " + name + "'s Inventory at slot " + diceData.InventorySlot);
-                break;
-            }
-        }
+        dice.Add(Instantiate(_die, currentDieLoc.transform.position, Quaternion.identity));
+        currentDieInHand = dice[dice.Count - 1];
+        currentDieInHand.transform.parent = currentDieLoc.transform;
+        currentDieInHand.GetComponent<Die>().DieMR.enabled = false; //disable the Die's mesh from displaying in the scene
+        TurnManagerCall.UpdateEntityLists(EntityType.Die);
     }
     //Method(s) to remove Dice from your Inventory
-    public void RemoveDieFromInventory(Die _die) {
+    public void RemoveDieFromInventory(GameObject _die) {
+        dice.Remove(_die);
+        Destroy(GameObject.Find(_die.name));
+        EquipDie(0);
+    }
+
+    public void ThrowDieFromInventory(GameObject _die) {
+        dice.Remove(_die);
     }
 
 

@@ -9,9 +9,13 @@ public abstract class MovableEntity : Entity
     [SerializeField] private float moveDuration = 0.1f;
     [SerializeField] private float turnDuration = 0.1f;
 
+    TurnManager turnManager;
+    public TurnManager TurnManagerCall { get => turnManager; set => turnManager = value; }
+
     private void Awake()
     {
         type = EntityType.IndestructibleObj;
+        turnManager = GameObject.Find("TurnManager").GetComponent<TurnManager>();
     }
 
     protected IEnumerator Move(Vector2 direction) {
@@ -20,6 +24,7 @@ public abstract class MovableEntity : Entity
         if (GridManager.instance.MoveTo(this, destination))
             yield return StartCoroutine(AnimateMoveToCoords());
     }
+
 
     protected virtual IEnumerator AnimateMoveToCoords() {
         Vector3 originalPosition = transform.position;

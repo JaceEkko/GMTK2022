@@ -45,7 +45,7 @@ public class TurnManager : MonoBehaviour
         }
     }
 
-    void UpdateEntityLists(EntityType _entityType) {
+    public void UpdateEntityLists(EntityType _entityType) {
         List<MovableEntity> entites = new List<MovableEntity>(FindObjectsOfType<MovableEntity>());
         List<MovableEntity> tempEntityList = new List<MovableEntity>();
 
