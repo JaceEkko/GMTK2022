@@ -26,6 +26,7 @@ public class Player : Character
         AddNewDieToInventory(Instantiate(Resources.Load("TestDiePrefab") as GameObject).GetComponent<Die>());
         AddNewDieToInventory(Instantiate(Resources.Load("TestDiePrefab 1") as GameObject).GetComponent<Die>());
         AddNewDieToInventory(Instantiate(Resources.Load("TestDiePrefab 2") as GameObject).GetComponent<Die>());
+
     }
 
     void OnEquipDice(InputAction.CallbackContext _context) {
