@@ -7,9 +7,13 @@ public class MovableEntity : Entity
     //How long it takes (realtime) to animate moving between two tiles
     [SerializeField] private float moveDuration;
 
+    TurnManager turnManager;
+    public TurnManager TurnManagerCall { get => turnManager; set => turnManager = value; }
+
     private void Awake()
     {
         type = EntityType.IndestructibleObj;
+        turnManager = GameObject.Find("TurnManager").GetComponent<TurnManager>();
     }
 
     protected IEnumerator Move(Vector2 direction) {
@@ -19,6 +23,7 @@ public class MovableEntity : Entity
     }
 
     Vector3 originalPosition;
+
     protected virtual IEnumerator AnimateMoveToCoords() {
         originalPosition = transform.position;
         float timer = 0;

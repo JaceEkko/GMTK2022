@@ -12,6 +12,7 @@ public class Player : Character
     void Awake()
     {
         type = EntityType.Player;
+        CurrentDieLoc = transform.Find("CurrentDieInHand").gameObject;
 
         //Character Input
         characterInput = new CharacterInputs();
@@ -31,12 +32,12 @@ public class Player : Character
         GameObject newDie = Resources.Load("TestDiePrefab") as GameObject;
         GameObject newDie1 = Resources.Load("TestDiePrefab 1") as GameObject;
         GameObject newDie2 = Resources.Load("TestDiePrefab 2") as GameObject;
-        AddDieToInventory(newDie);
-        AddDieToInventory(newDie1);
-        AddDieToInventory(newDie2);
+        AddNewDieToInventory(newDie);
+        AddNewDieToInventory(newDie1);
+        AddNewDieToInventory(newDie2);
 
         EquipDie(0); //equip the first die in the Player's Inventory
-        EquipDie(5);
+        RemoveDieFromInventory(newDie);
     }
 
     void OnEquipDice(InputAction.CallbackContext _context) {
@@ -58,8 +59,11 @@ public class Player : Character
     {
         yield return StartCoroutine(base.RunTurn());
         while (!hasCompletedTurn) {
-            if (isThrowDiePressed)
+            if (isThrowDiePressed) {
+                RemoveDieFromInventory(CurrentDieInHand);
+                yield return StartCoroutine(CurrentDieInHand.GetComponent<Die>().RunTurn());
                 hasCompletedTurn = true;
+            }
 
             Vector2 intendedDirection = GetMovementDirection();
             if(intendedDirection.magnitude > 0) {
