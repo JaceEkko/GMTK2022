@@ -18,6 +18,11 @@ public abstract class Character : MovableEntity
         type = EntityType.Enemy;
     }
 
+    private void Start()
+    {
+        
+    }
+
     public void EquipDie(int _dieIndex, int _scrollDir = 1) {
         if (dice.Count == 0) { return; }
         var dieMr = currentDieInHand.GetComponent<Die>().DieMR;
@@ -48,13 +53,14 @@ public abstract class Character : MovableEntity
         currentDieInHand = dice[dice.Count - 1];
         currentDieInHand.transform.parent = currentDieLoc.transform;
         currentDieInHand.GetComponent<Die>().DieMR.enabled = false; //disable the Die's mesh from displaying in the scene
-        TurnManagerCall.UpdateEntityLists(EntityType.Die);
+        //TurnManagerCall.UpdateEntityLists(EntityType.Die);
     }
     //Method(s) to remove Dice from your Inventory
     public void RemoveDieFromInventory(GameObject _die) {
         dice.Remove(_die);
         Destroy(GameObject.Find(_die.name));
         EquipDie(0);
+        TurnManagerCall.UpdateEntityLists(EntityType.Die);
     }
 
     public void ThrowDieFromInventory(GameObject _die) {

@@ -37,7 +37,7 @@ public class Player : Character
         AddNewDieToInventory(newDie2);
 
         EquipDie(0); //equip the first die in the Player's Inventory
-        RemoveDieFromInventory(newDie);
+        //RemoveDieFromInventory(newDie);
     }
 
     void OnEquipDice(InputAction.CallbackContext _context) {
