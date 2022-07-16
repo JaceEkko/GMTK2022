@@ -29,9 +29,11 @@ public class Player : Character
     void Start()
     {
         GameObject newDie = Resources.Load("TestDiePrefab") as GameObject;
+        GameObject newDie1 = Resources.Load("TestDiePrefab 1") as GameObject;
+        GameObject newDie2 = Resources.Load("TestDiePrefab 2") as GameObject;
         AddDieToInventory(newDie);
-        AddDieToInventory(newDie);
-        AddDieToInventory(newDie);
+        AddDieToInventory(newDie1);
+        AddDieToInventory(newDie2);
 
         EquipDie(0); //equip the first die in the Player's Inventory
         EquipDie(5);
@@ -39,12 +41,14 @@ public class Player : Character
 
     void OnEquipDice(InputAction.CallbackContext _context) {
         var scroll = _context.ReadValue<float>();
-        Debug.Log(scroll);
         if (scroll > 0) {
-            CurrentDieIndex += 1;
-        } else if (scroll < 0) {
+            scroll = -1;
             CurrentDieIndex -= 1;
+        } else if (scroll < 0) {
+            scroll = 1;
+            CurrentDieIndex += 1;
         }
+        if(scroll != 0) EquipDie(CurrentDieIndex, (int)scroll);
     }
     void OnThrowDice(InputAction.CallbackContext _context) {
         isThrowDiePressed = _context.ReadValueAsButton();
