@@ -29,8 +29,9 @@ public class NonAimedDiePower : DiePower
         int currentGridY = startPosY;
         while ((patternInTxt = patternFile.ReadLine()) != null) {
             string[] gridRow = patternInTxt.Split(',');
-            for (var gSpace = 0; gSpace < gridRow.Length; gSpace++) {
-                DetermineHazardAtCoords(gridRow[gSpace]);
+            for (var i = 0; i < gridRow.Length; i++) {
+                Vector2Int gridSpace = new Vector2Int(currentGridX, currentGridY);
+                DetermineHazardAtCoords(gridRow[i]);
                 currentGridX++;
             }
             currentGridY++;
