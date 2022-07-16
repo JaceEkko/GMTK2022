@@ -11,9 +11,12 @@ public class Entity : MonoBehaviour
 
     public float HealthPoints { get => healthPoints; set => healthPoints = value; }
 
+    protected bool hasCompletedTurn = false;
+
     //Determine what Actions will run on an Entity's turn
     public virtual IEnumerator RunTurn() { 
         Debug.Log(name + " Running Turn");
+        hasCompletedTurn = false;
         yield return new WaitForEndOfFrame();
     }
 

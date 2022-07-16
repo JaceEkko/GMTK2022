@@ -56,16 +56,14 @@ public class Player : Character
 
     public override IEnumerator RunTurn()
     {
-        Debug.Log("Player: " + name + " Running Turn"); ;
-        while (true) {
+        yield return StartCoroutine(base.RunTurn());
+        while (!hasCompletedTurn) {
             if (isThrowDiePressed)
-                break;
+                hasCompletedTurn = true;
 
             Vector2 intendedDirection = GetMovementDirection();
             if(intendedDirection.magnitude > 0) {
-                bool didMove = Move(intendedDirection);
-                if (didMove)
-                    break;
+                yield return StartCoroutine(Move(intendedDirection));
 			}
             yield return new WaitForEndOfFrame();
         }
