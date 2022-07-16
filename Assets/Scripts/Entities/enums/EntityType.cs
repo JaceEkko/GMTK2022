@@ -2,7 +2,7 @@ public enum EntityType
 {
     Player,
     Enemy,
-    Dice,
+    Die,
     IndestructibleObj,
     DestructibleObj,
     NonPhysical
