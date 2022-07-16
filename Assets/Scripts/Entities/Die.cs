@@ -9,7 +9,7 @@ public class Die : MovableEntity
 
     private void Awake()
     {
-        type = EntityType.Dice;
+        type = EntityType.Die;
     }
 
     public override IEnumerator RunTurn()

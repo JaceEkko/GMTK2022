@@ -30,7 +30,7 @@ public class GridManager : MonoBehaviour {
             entity.coords = coords;
 
             switch (entity.type) {
-                case EntityType.Dice:
+                case EntityType.Die:
                     allDice.Add((Die)entity);
                     break;
                 case EntityType.NonPhysical: //I don't think any nonphysical tiles should be active on start? But maybe
@@ -63,7 +63,7 @@ public class GridManager : MonoBehaviour {
             return false;
 
 		switch (movingEntity.type) {
-            case EntityType.Dice:
+            case EntityType.Die:
                 break;
             case EntityType.NonPhysical: //Can nonphys move?? Probably not?
                 nonPhysicalEntityMap[movingEntity.coords.x, movingEntity.coords.y] = null;
@@ -98,7 +98,7 @@ public class GridManager : MonoBehaviour {
         }
 
         switch (newEntity.type) {
-            case EntityType.Dice:
+            case EntityType.Die:
                 break;
             case EntityType.NonPhysical:
                 nonPhysicalEntityMap[destination.x, destination.y] = (NonPhysicalEntity)newEntity;
@@ -117,7 +117,7 @@ public class GridManager : MonoBehaviour {
             return false;
 
 		switch (type) {
-            case EntityType.Dice: //Dice can overlap
+            case EntityType.Die: //Dice can overlap
                 return true;
             case EntityType.NonPhysical: //Nonphys can overwrite each other
                 return true;
