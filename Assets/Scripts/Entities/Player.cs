@@ -18,25 +18,42 @@ public class Player : Character
         characterInput.PlayerControls.Enable();
 
         //ThrowDie
-        characterInput.PlayerControls.ThrowDie.started += OnThrowDie;
-        characterInput.PlayerControls.ThrowDie.canceled += OnThrowDie;
+        characterInput.PlayerControls.ThrowDie.started += OnThrowDice;
+        characterInput.PlayerControls.ThrowDie.canceled += OnThrowDice;
     }
 
-    void OnThrowDie(InputAction.CallbackContext _context) {
+    void OnThrowDice(InputAction.CallbackContext _context) {
         isThrowDiePressed = _context.ReadValueAsButton();
     }
 
     public override IEnumerator RunTurn()
     {
         Debug.Log("Player: " + name + " Running Turn"); ;
-        while (!isThrowDiePressed) {
+        while (true) {
+            if (isThrowDiePressed)
+                break;
+
+            Vector2 intendedDirection = GetMovementDirection();
+            if(intendedDirection.magnitude > 0) {
+                bool didMove = Move(intendedDirection);
+                if (didMove)
+                    break;
+			}
             yield return new WaitForEndOfFrame();
         }
     }
 
-    private void OnMove(InputValue value) {
-        Vector2Int destination = new Vector2Int(coords.x + (int) value.Get<Vector2>().x, coords.y + (int) value.Get<Vector2>().y);
-        Debug.Log("Moving " + value.Get<Vector2>());
-        GridManager.instance.MoveTo(this, destination);
-    }
+    private Vector2 GetMovementDirection() {
+        Vector2 direction = characterInput.PlayerControls.Move.ReadValue<Vector2>();
+        direction.x -= characterInput.PlayerControls.DiagonalNW.ReadValue<float>();
+        direction.y += characterInput.PlayerControls.DiagonalNW.ReadValue<float>();
+        direction.x += characterInput.PlayerControls.DiagonalNE.ReadValue<float>();
+        direction.y += characterInput.PlayerControls.DiagonalNE.ReadValue<float>();
+        direction.x += characterInput.PlayerControls.DiagonalSE.ReadValue<float>();
+        direction.y -= characterInput.PlayerControls.DiagonalSE.ReadValue<float>();
+        direction.x -= characterInput.PlayerControls.DiagonalSW.ReadValue<float>();
+        direction.y -= characterInput.PlayerControls.DiagonalSW.ReadValue<float>();
+
+        return direction;
+	}
 }
