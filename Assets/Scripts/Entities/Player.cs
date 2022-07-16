@@ -18,7 +18,7 @@ public class Player : Character
         characterInput = new CharacterInputs();
         characterInput.PlayerControls.Enable();
 
-        //Jump
+        //ThrowDie
         characterInput.PlayerControls.ThrowDie.started += onThrowDie;
         characterInput.PlayerControls.ThrowDie.canceled += onThrowDie;
     }
@@ -29,8 +29,8 @@ public class Player : Character
 
     public override IEnumerator RunTurn()
     {
+        Debug.Log("Player: " + name + " Running Turn"); ;
         while (!isThrowDiePressed) {
-            Debug.Log("Waiting For Player: " + name); ;
             yield return new WaitForEndOfFrame();
         }
     }

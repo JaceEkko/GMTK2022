@@ -22,11 +22,9 @@ public class Entity : MonoBehaviour
         
     }
 
-    public virtual IEnumerator RunTurn() {
-        while (!Input.GetKeyDown(KeyCode.Space)) {
-            Debug.Log(this.name + " Running Turn");
-            yield return null;
-        }
+    public virtual IEnumerator RunTurn() { 
+        Debug.Log(name + " Running Turn");
+        yield return new WaitForEndOfFrame();
     }
 
     public void UpdatePosition() {
