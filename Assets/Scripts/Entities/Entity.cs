@@ -5,22 +5,11 @@ using UnityEngine;
 public class Entity : MonoBehaviour
 {
     float healthPoints;
-    public EntityType type;
+    public EntityType type = EntityType.IndestructibleObj;
 
     public Vector2Int coords { get; set; }
 
     public float HealthPoints { get => healthPoints; set => healthPoints = value; }
-
-    void Awake()
-    {
-        type = EntityType.IndestructibleObj;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     //Determine what Actions will run on an Entity's turn
     public virtual IEnumerator RunTurn() { 

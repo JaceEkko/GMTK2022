@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class MovableEntity : Entity
 {
-    void Awake() {
+    private void Awake()
+    {
         type = EntityType.IndestructibleObj;
     }
 

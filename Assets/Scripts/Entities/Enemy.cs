@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : Character
 {
-    void Awake()
+    private void Awake()
     {
         type = EntityType.Enemy;
     }

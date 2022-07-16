@@ -52,8 +52,7 @@ public class TurnManager : MonoBehaviour
         while (enitytInTurn != turnPrecedence.Count) {
             yield return StartCoroutine(turnPrecedence[enitytInTurn].RunTurn());
             StopCoroutine(turnPrecedence[enitytInTurn].RunTurn());
-            yield return new WaitForSeconds(0.5f);
-           enitytInTurn += 1;
+            enitytInTurn += 1;
         }
     }
 

@@ -17,11 +17,35 @@ public class Player : Character
         characterInput = new CharacterInputs();
         characterInput.PlayerControls.Enable();
 
+        //EquipDice
+        characterInput.PlayerControls.EquipDie.started += OnEquipDice;
+        characterInput.PlayerControls.EquipDie.performed += OnEquipDice;
+        characterInput.PlayerControls.EquipDie.canceled += OnEquipDice;
         //ThrowDie
         characterInput.PlayerControls.ThrowDie.started += OnThrowDice;
         characterInput.PlayerControls.ThrowDie.canceled += OnThrowDice;
     }
 
+    void Start()
+    {
+        GameObject newDie = Resources.Load("TestDiePrefab") as GameObject;
+        AddDieToInventory(newDie);
+        AddDieToInventory(newDie);
+        AddDieToInventory(newDie);
+
+        EquipDie(0); //equip the first die in the Player's Inventory
+        EquipDie(5);
+    }
+
+    void OnEquipDice(InputAction.CallbackContext _context) {
+        var scroll = _context.ReadValue<float>();
+        Debug.Log(scroll);
+        if (scroll > 0) {
+            CurrentDieIndex += 1;
+        } else if (scroll < 0) {
+            CurrentDieIndex -= 1;
+        }
+    }
     void OnThrowDice(InputAction.CallbackContext _context) {
         isThrowDiePressed = _context.ReadValueAsButton();
     }

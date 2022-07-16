@@ -80,6 +80,15 @@ public partial class @CharacterInputs : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""EquipDie"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""47a9bcea-137a-45b4-b0f9-e704e411878b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -302,6 +311,17 @@ public partial class @CharacterInputs : IInputActionCollection2, IDisposable
                     ""action"": ""Diagonal SW"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c840dd97-b8ec-416a-8d5f-6d2a6ce9ed26"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""EquipDie"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -316,6 +336,7 @@ public partial class @CharacterInputs : IInputActionCollection2, IDisposable
         m_PlayerControls_DiagonalNE = m_PlayerControls.FindAction("Diagonal NE", throwIfNotFound: true);
         m_PlayerControls_DiagonalSE = m_PlayerControls.FindAction("Diagonal SE", throwIfNotFound: true);
         m_PlayerControls_DiagonalSW = m_PlayerControls.FindAction("Diagonal SW", throwIfNotFound: true);
+        m_PlayerControls_EquipDie = m_PlayerControls.FindAction("EquipDie", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -381,6 +402,7 @@ public partial class @CharacterInputs : IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerControls_DiagonalNE;
     private readonly InputAction m_PlayerControls_DiagonalSE;
     private readonly InputAction m_PlayerControls_DiagonalSW;
+    private readonly InputAction m_PlayerControls_EquipDie;
     public struct PlayerControlsActions
     {
         private @CharacterInputs m_Wrapper;
@@ -391,6 +413,7 @@ public partial class @CharacterInputs : IInputActionCollection2, IDisposable
         public InputAction @DiagonalNE => m_Wrapper.m_PlayerControls_DiagonalNE;
         public InputAction @DiagonalSE => m_Wrapper.m_PlayerControls_DiagonalSE;
         public InputAction @DiagonalSW => m_Wrapper.m_PlayerControls_DiagonalSW;
+        public InputAction @EquipDie => m_Wrapper.m_PlayerControls_EquipDie;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -418,6 +441,9 @@ public partial class @CharacterInputs : IInputActionCollection2, IDisposable
                 @DiagonalSW.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDiagonalSW;
                 @DiagonalSW.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDiagonalSW;
                 @DiagonalSW.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDiagonalSW;
+                @EquipDie.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnEquipDie;
+                @EquipDie.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnEquipDie;
+                @EquipDie.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnEquipDie;
             }
             m_Wrapper.m_PlayerControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -440,6 +466,9 @@ public partial class @CharacterInputs : IInputActionCollection2, IDisposable
                 @DiagonalSW.started += instance.OnDiagonalSW;
                 @DiagonalSW.performed += instance.OnDiagonalSW;
                 @DiagonalSW.canceled += instance.OnDiagonalSW;
+                @EquipDie.started += instance.OnEquipDie;
+                @EquipDie.performed += instance.OnEquipDie;
+                @EquipDie.canceled += instance.OnEquipDie;
             }
         }
     }
@@ -452,5 +481,6 @@ public partial class @CharacterInputs : IInputActionCollection2, IDisposable
         void OnDiagonalNE(InputAction.CallbackContext context);
         void OnDiagonalSE(InputAction.CallbackContext context);
         void OnDiagonalSW(InputAction.CallbackContext context);
+        void OnEquipDie(InputAction.CallbackContext context);
     }
 }
