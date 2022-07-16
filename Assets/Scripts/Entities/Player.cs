@@ -18,11 +18,11 @@ public class Player : Character
         characterInput.PlayerControls.Enable();
 
         //ThrowDie
-        characterInput.PlayerControls.ThrowDie.started += OnThrowDie;
-        characterInput.PlayerControls.ThrowDie.canceled += OnThrowDie;
+        characterInput.PlayerControls.ThrowDie.started += OnThrowDice;
+        characterInput.PlayerControls.ThrowDie.canceled += OnThrowDice;
     }
 
-    void OnThrowDie(InputAction.CallbackContext _context) {
+    void OnThrowDice(InputAction.CallbackContext _context) {
         isThrowDiePressed = _context.ReadValueAsButton();
     }
 

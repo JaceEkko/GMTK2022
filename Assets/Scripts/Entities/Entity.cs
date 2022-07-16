@@ -22,6 +22,7 @@ public class Entity : MonoBehaviour
         
     }
 
+    //Determine what Actions will run on an Entity's turn
     public virtual IEnumerator RunTurn() { 
         Debug.Log(name + " Running Turn");
         yield return new WaitForEndOfFrame();
