@@ -151,10 +151,42 @@ public class GridManager : MonoBehaviour {
         return physicalEntityMap[coords.x, coords.y];
 	}
 
-    public Vector2Int WorldspaceToCoords(Vector2 worldspace) {
+    public static Vector2Int WorldspaceToCoords(Vector2 worldspace) {
         return new Vector2Int((int)Mathf.Round(worldspace.x), (int)Mathf.Round(worldspace.y));
     }
-    public Vector2Int WorldspaceToCoords(Vector3 worldspace) {
+    public static Vector2Int WorldspaceToCoords(Vector3 worldspace) {
         return WorldspaceToCoords(new Vector2(worldspace.x, worldspace.z));
 	}
+
+    //Converts a Vector2Int direction into degrees around the y axis
+    //0 degrees is looking straight north
+    public static float DirectionToDegrees(Vector2Int direction) {
+        if(direction.y == 1) {
+            if (direction.x == -1)
+                return -45;
+            else if (direction.x == 0)
+                return 0;
+            else if (direction.x == 1)
+                return 45;
+		}
+        else if (direction.y == 0) {
+            if (direction.x == -1)
+                return -90;
+            else if (direction.x == 0)
+                return 0;
+            else if (direction.x == 1)
+                return 90;
+        }
+        else if (direction.y == -1) {
+            if (direction.x == -1)
+                return 225;
+            else if (direction.x == 0)
+                return 180;
+            else if (direction.x == 1)
+                return 135;
+        }
+
+        Debug.LogError("Invalid direction given");
+        return 0;
+    }
 }

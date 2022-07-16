@@ -5,7 +5,9 @@ using UnityEngine;
 public class MovableEntity : Entity
 {
     //How long it takes (realtime) to animate moving between two tiles
+    [Header("Movement Variables")]
     [SerializeField] private float moveDuration;
+    [SerializeField] private float turnDuration;
 
     private void Awake()
     {
@@ -14,22 +16,32 @@ public class MovableEntity : Entity
 
     protected IEnumerator Move(Vector2 direction) {
         Vector2Int destination = new Vector2Int(coords.x + (int)direction.x, coords.y + (int)direction.y);
+        StartCoroutine(SmoothRotate(new Vector2Int((int) direction.x, (int) direction.y)));
         if (GridManager.instance.MoveTo(this, destination))
             yield return StartCoroutine(AnimateMoveToCoords());
     }
 
-    Vector3 originalPosition;
     protected virtual IEnumerator AnimateMoveToCoords() {
-        originalPosition = transform.position;
+        Vector3 originalPosition = transform.position;
         float timer = 0;
         while(timer < moveDuration) {
             Vector3 coordsIn3D = new Vector3(coords.x, transform.position.y, coords.y);
             transform.position = Vector3.Slerp(originalPosition, coordsIn3D, timer / moveDuration);
-            Debug.Log("Moving " + originalPosition + " to " + coordsIn3D);
             timer += Time.deltaTime;
             yield return new WaitForEndOfFrame();
 		}
-
+        UpdatePosition();
         hasCompletedTurn = true;
     }
+    protected virtual IEnumerator SmoothRotate(Vector2Int direction) {
+        float originalRotation = transform.eulerAngles.y;
+        float goalRotation = GridManager.DirectionToDegrees(direction);
+        float timer = 0;
+        while(timer < turnDuration) {
+            float currentRotation = Mathf.Lerp(originalRotation, goalRotation, timer / turnDuration);
+            transform.eulerAngles = new Vector3(0, currentRotation, 0);
+            timer += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+		}
+	}
 }
