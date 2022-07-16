@@ -30,6 +30,6 @@ public class Entity : MonoBehaviour
     }
 
     public void UpdatePosition() {
-        transform.position = new Vector3(coords.x, coords.y);
+        transform.position = new Vector3(coords.x, transform.position.y, coords.y);
     }
 }
