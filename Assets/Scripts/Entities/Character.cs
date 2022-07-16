@@ -5,11 +5,10 @@ using UnityEngine;
 public abstract class Character : MovableEntity
 {
     [SerializeField] List<GameObject> dice = new List<GameObject>();
-    GameObject currentDieLoc;
+    [SerializeField] private GameObject currentDieLoc;
     [SerializeField] GameObject currentDieInHand;
     [SerializeField] int currentDieIndex = 0;
 
-    public GameObject CurrentDieLoc { get => currentDieLoc; set => currentDieLoc = value; }
     public GameObject CurrentDieInHand { get => currentDieInHand; set => currentDieInHand = value; }
     public int CurrentDieIndex { get => currentDieIndex; set => currentDieIndex = value; }
 
@@ -66,6 +65,4 @@ public abstract class Character : MovableEntity
     public void ThrowDieFromInventory(GameObject _die) {
         dice.Remove(_die);
     }
-
-
 }

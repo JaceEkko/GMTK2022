@@ -12,7 +12,6 @@ public class Player : Character
     void Awake()
     {
         type = EntityType.Player;
-        CurrentDieLoc = transform.Find("CurrentDieInHand").gameObject;
 
         //Character Input
         characterInput = new CharacterInputs();
@@ -24,7 +23,6 @@ public class Player : Character
         characterInput.PlayerControls.EquipDie.canceled += OnEquipDice;
         //ThrowDie
         characterInput.PlayerControls.ThrowDie.started += OnThrowDice;
-        characterInput.PlayerControls.ThrowDie.canceled += OnThrowDice;
     }
 
     void Start()
