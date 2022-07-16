@@ -119,9 +119,7 @@ MonoBehaviour:
   moveDuration: 0.1
   turnDuration: 0.1
   dice: []
-  currentDieLoc: {fileID: 8934036899583259032}
-  currentDieInHand: {fileID: 0}
-  currentDieIndex: 0
+  equippedDieLocation: {fileID: 7957706593412935424}
 --- !u!114 &2937055546310528605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,7 +257,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7957706593412935424}
   m_Layer: 0
-  m_Name: CurrentDieInHand
+  m_Name: Held Die Location
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

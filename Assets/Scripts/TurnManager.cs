@@ -6,28 +6,32 @@ using UnityEngine;
 public class TurnManager : MonoBehaviour
 {
     int currentRound = 0;
-    public enum roundState {STARTROUND, PLAYERTURN, ENEMYTURN, DICETURN, ENDROUND}
-    private roundState currentRoundState;
 
-    public List<MovableEntity> allPlayer = new List<MovableEntity>();
-    public List<MovableEntity> allEnemy = new List<MovableEntity>();
-    public List<MovableEntity> allDie = new List<MovableEntity>();
+    private List<Entity> allPlayer = new List<Entity>();
+    private List<Entity> allEnemy = new List<Entity>();
+    private List<Entity> allDice = new List<Entity>();
+    private List<Entity> otherEntities = new List<Entity>();
+    private List<Entity>[] orderedEntityLists;
 
-    public List<MovableEntity> turnPrecedence = new List<MovableEntity>();
-
-    public roundState CurrentRoundState { get => currentRoundState; set => currentRoundState = value; }
-
-
-    // Start is called before the first frame update
     void Start()
     {
-        UpdateEntityLists(EntityType.Player);
-        UpdateEntityLists(EntityType.Enemy);
-        UpdateEntityLists(EntityType.Die);
+        List<Entity> allEntities = new List<Entity>(FindObjectsOfType<Entity>());
+        foreach(Entity entity in allEntities) {
+            if(entity.type == EntityType.Player) {
+                allPlayer.Add(entity);
+			}
+            else if(entity.type == EntityType.Enemy) {
+                allEnemy.Add(entity);
+			}
+            else if(entity.type == EntityType.Die) {
+                allDice.Add(entity);
+			}
+			else {
+                otherEntities.Add(entity);
+			}
+		}
+        orderedEntityLists = new List<Entity>[] { allPlayer, allEnemy, allDice, otherEntities };
 
-        UpdateTurnOrder();
-
-        currentRoundState = roundState.STARTROUND;
         StartCoroutine(RoundStart());
     }
 
@@ -35,52 +39,39 @@ public class TurnManager : MonoBehaviour
         while (true) {
             currentRound += 1;
             Debug.Log("Round " + currentRound + " Start!!");
-            foreach (Entity entity in turnPrecedence) {
-                Debug.Log(entity.name + " taking turn");
-                entity.IsTakingTurn = true;
-                yield return StartCoroutine(entity.RunTurn());
-                entity.IsTakingTurn = false;
-            }
+            foreach(List<Entity> turnPhase in orderedEntityLists) {
+                foreach(Entity entity in turnPhase) {
+                    Debug.Log(entity.name + " taking turn!");
+                    entity.IsTakingTurn = true;
+                    yield return StartCoroutine(entity.RunTurn());
+				}
+			}
             Debug.Log("End Round " + currentRound + "!!");
         }
     }
 
-    public void UpdateEntityLists(EntityType _entityType) {
-        List<MovableEntity> entites = new List<MovableEntity>(FindObjectsOfType<MovableEntity>());
-        List<MovableEntity> tempEntityList = new List<MovableEntity>();
-
-        //Clear List we want to Update
-        if (_entityType == EntityType.Player) {
-            allPlayer.Clear();
-        } else if (_entityType == EntityType.Enemy) {
-            allEnemy.Clear();
-        } else if (_entityType == EntityType.Die) {
-            allDie.Clear();
-        }
-
-        //Save Off all the Movable Entities of the Specific Type
-        foreach (var movEntity in entites) {
-            if (movEntity.type == _entityType) {
-                tempEntityList.Add(movEntity);
-            }
-        }
-
-        //Update the Appropriate List
-        if (_entityType == EntityType.Player)
-        {
-            allPlayer = tempEntityList;
-        }
-        else if (_entityType == EntityType.Enemy)
-        {
-            allEnemy = tempEntityList;
-        }
-        else if (_entityType == EntityType.Die)
-        {
-            allDie = tempEntityList;
-        }
-    }
-
-    void UpdateTurnOrder() {
-        turnPrecedence = allPlayer.Union(allEnemy).Union(allDie).ToList();
-    }
+    public void AddPlayer(Player player) {
+        allPlayer.Add(player);
+	}
+    public void RemovePlayer(Player player) {
+        allPlayer.Remove(player);
+	}
+    public void AddEnemy(Enemy enemy) {
+        allEnemy.Add(enemy);
+	}
+    public void RemoveEnemy(Enemy enemy) {
+        allEnemy.Remove(enemy);
+	}
+    public void AddDie(Die die) {
+        allDice.Add(die);
+	}
+    public void RemoveDie(Die die) {
+        allDice.Remove(die);
+	}
+    public void AddEntity(Entity entity) {
+        otherEntities.Add(entity);
+	}
+    public void RemoveEntity(Entity entity) {
+        otherEntities.Remove(entity);
+	}
 }

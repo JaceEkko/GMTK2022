@@ -35,27 +35,10 @@ public abstract class Enemy : Character
             hasSeenPlayer = true;
     }
 
-	#region Movement
 	protected virtual IEnumerator RandomMove() {
         Vector2 direction = new Vector2(Random.Range(-1, 2), Random.Range(-1, 2));
         yield return StartCoroutine(Move(direction));
     }
-    protected virtual IEnumerator MoveTowardsPlayer() {
-        Vector2 direction = Vector2.zero;
-
-        if (player.transform.position.x < transform.position.x)
-            direction.x = -1;
-        else if (player.transform.position.x > transform.position.x)
-            direction.x = 1;
-
-        if (player.transform.position.z < transform.position.z)
-            direction.y = -1;
-        else if (player.transform.position.z > transform.position.z)
-            direction.y = 1;
-
-        yield return StartCoroutine(Move(direction));
-	}
-	#endregion
 
     protected virtual IEnumerator SkipTurn() {
         yield return new WaitForEndOfFrame();

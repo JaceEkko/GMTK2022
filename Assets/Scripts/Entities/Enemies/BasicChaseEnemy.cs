@@ -12,7 +12,7 @@ public class BasicChaseEnemy : Enemy {
 		LookForPlayer();
 		if (hasSeenPlayer) {
 			if (Vector3.Distance(transform.position, player.transform.position) > desiredDistToPlayer)
-				yield return StartCoroutine(MoveTowardsPlayer());
+				yield return StartCoroutine(MoveTowardsEntity(player));
 			else {
 				transform.LookAt(player.transform);
 				//Needs to check if dice in inventory

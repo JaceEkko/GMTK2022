@@ -143,6 +143,23 @@ public class GridManager : MonoBehaviour {
         return diceInRange;
 	}
 
+    public Entity GetEntityOnTile(Vector2Int coords, EntityType type) {
+        if (coords.x < 0 || coords.x >= width || coords.y < 0 || coords.y >= height)
+            return null;
+        switch (type) {
+            case EntityType.Die:
+                foreach(Die die in allDice) {
+                    if (die.coords.x == coords.x && die.coords.y == coords.y)
+                        return die;
+				}
+                return null;
+            case EntityType.NonPhysical:
+                return nonPhysicalEntityMap[coords.x, coords.y];
+            default:
+                return physicalEntityMap[coords.x, coords.y];
+        }
+    }
+
 	public Vector2Int GetMouseCoords() {
         return WorldspaceToCoords(tileHighlighter.transform.position);
 	}

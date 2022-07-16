@@ -18,54 +18,45 @@ public class Player : Character
         characterInput.PlayerControls.Enable();
 
         //EquipDice
-        characterInput.PlayerControls.EquipDie.started += OnEquipDice;
         characterInput.PlayerControls.EquipDie.performed += OnEquipDice;
-        characterInput.PlayerControls.EquipDie.canceled += OnEquipDice;
-        //ThrowDie
-        characterInput.PlayerControls.ThrowDie.started += OnThrowDice;
     }
 
     void Start()
     {
-        GameObject newDie = Resources.Load("TestDiePrefab") as GameObject;
-        GameObject newDie1 = Resources.Load("TestDiePrefab 1") as GameObject;
-        GameObject newDie2 = Resources.Load("TestDiePrefab 2") as GameObject;
-        AddNewDieToInventory(newDie);
-        AddNewDieToInventory(newDie1);
-        AddNewDieToInventory(newDie2);
-
-        EquipDie(0); //equip the first die in the Player's Inventory
-        RemoveDieFromInventory(newDie);
+        AddNewDieToInventory(Instantiate(Resources.Load("TestDiePrefab") as GameObject).GetComponent<Die>());
+        AddNewDieToInventory(Instantiate(Resources.Load("TestDiePrefab 1") as GameObject).GetComponent<Die>());
+        AddNewDieToInventory(Instantiate(Resources.Load("TestDiePrefab 2") as GameObject).GetComponent<Die>());
     }
 
     void OnEquipDice(InputAction.CallbackContext _context) {
         var scroll = _context.ReadValue<float>();
-        if (scroll > 0) {
-            scroll = -1;
-            CurrentDieIndex -= 1;
-        } else if (scroll < 0) {
-            scroll = 1;
-            CurrentDieIndex += 1;
+        if(scroll == 0) {
+            return;
+		} else if (scroll < 0) {
+            currentDieIndex -= 1;
+        } else if (scroll > 0) {
+            currentDieIndex += 1;
         }
-        if(scroll != 0) EquipDie(CurrentDieIndex, (int)scroll);
-    }
-    void OnThrowDice(InputAction.CallbackContext _context) {
-        isThrowDiePressed = _context.ReadValueAsButton();
+
+        if (currentDieIndex < 0)
+            currentDieIndex = dice.Count - 1;
+        else if (currentDieIndex >= dice.Count)
+            currentDieIndex = 0;
+        EquipDie(currentDieIndex);
     }
 
-    public override IEnumerator RunTurn()
-    {
+    public override IEnumerator RunTurn() {
         while (IsTakingTurn) {
-            if (isThrowDiePressed) {
-                RemoveDieFromInventory(CurrentDieInHand);
-                IsTakingTurn = false;
-                yield return StartCoroutine(CurrentDieInHand.GetComponent<Die>().RunTurn());
+            if (currentDieInHand != null) {
+                if (characterInput.PlayerControls.ThrowDie.ReadValue<float>() > 0) {
+                    yield return StartCoroutine(ThrowDie());
+                }
             }
 
             Vector2 intendedDirection = GetMovementDirection();
-            if(intendedDirection.magnitude > 0) {
+            if (intendedDirection.magnitude > 0) {
                 yield return StartCoroutine(Move(intendedDirection));
-			}
+            }
             yield return new WaitForEndOfFrame();
         }
     }

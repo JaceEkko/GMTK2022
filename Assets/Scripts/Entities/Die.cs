@@ -7,42 +7,27 @@ public class Die : MovableEntity
     [SerializeField] string dieName;
     DiePower[] diePowers; //The list of all powers the die has at it's disposal
     [SerializeField] private GameObject dieMesh;
-    private MeshRenderer dieMR;
-
-    GridManager gridManager;
 
     private Character owner;
     private bool isThrown;
-    private bool hasReachedTargetDest;
 
     public string DieName { get => dieName; set => dieName = value; }
-    public MeshRenderer DieMR { get => dieMR; }
 
     private void Awake()
     {
         type = EntityType.Die;
-        dieMR = dieMesh.GetComponent<MeshRenderer>();
-
-        gridManager = GameObject.Find("TestGrid").GetComponent<GridManager>();
     }
 
     public override IEnumerator RunTurn()
-    {        
-        if (!hasReachedTargetDest) {
-        	yield return null;
-        }
+    {
+        yield return null;
     }
 
-    private void ExecuteDieAction() {
+    public IEnumerator ExecuteDieAction() {
         int faceNum = Random.Range(0, diePowers.Length);
-
+        yield return null;
         //do something with diePowers[faceNum];
 	}
-
-    public void ReturnReset() {
-        isThrown = false;
-        hasReachedTargetDest = false;
-    }
 
     public Entity GetOwner() {
         return owner;

@@ -103,9 +103,7 @@ MonoBehaviour:
   moveDuration: 0.1
   turnDuration: 0.1
   dice: []
-  currentDieLoc: {fileID: 1220934298231835245}
-  currentDieInHand: {fileID: 0}
-  currentDieIndex: 0
+  equippedDieLocation: {fileID: 7861713576278679005}
   visionRange: 10
   visionAngle: 65
   diceThrowRange: 7
@@ -121,7 +119,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7861713576278679005}
   m_Layer: 0
-  m_Name: CurrentDieInHand
+  m_Name: Held Die Location
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
