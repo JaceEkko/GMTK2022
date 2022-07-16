@@ -5,7 +5,7 @@ using UnityEngine;
 public class Die : MovableEntity
 {
     [SerializeField] string dieName;
-    DiePower[] diePowers; //The list of all powers the die has at it's disposal
+    List<DiePower> diePowers; //The list of all powers the die has at it's disposal
     [SerializeField] private GameObject dieMesh;
     private MeshRenderer dieMR;
 
@@ -24,6 +24,8 @@ public class Die : MovableEntity
         dieMR = dieMesh.GetComponent<MeshRenderer>();
 
         gridManager = GameObject.Find("TestGrid").GetComponent<GridManager>();
+        //Temporarily adding powers to dies
+        diePowers.Add(new NonAimedDiePower(DiePower.DamageType.PLASMA, NonAimedDiePower.Pattern.Cross, this));
     }
 
     public override IEnumerator RunTurn()
@@ -34,7 +36,7 @@ public class Die : MovableEntity
     }
 
     private void ExecuteDieAction() {
-        int faceNum = Random.Range(0, diePowers.Length);
+        int faceNum = Random.Range(0, diePowers.Count);
 
         //do something with diePowers[faceNum];
 	}
