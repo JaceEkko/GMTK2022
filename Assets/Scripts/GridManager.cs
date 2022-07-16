@@ -8,7 +8,16 @@ public class GridManager : MonoBehaviour {
     private NonPhysicalEntity[,] nonPhysicalEntityMap;
     private List<Die> allDice;
 
+    [SerializeField] private GameObject tileHighlighter;
+
+    public static GridManager instance { get; private set; }
+
     void Start() {
+        if (instance != null)
+            Destroy(this);
+        else
+            instance = this;
+
         Entity[] allEntities = FindObjectsOfType<Entity>(true);
 
         physicalEntityMap = new Entity[width, height];
@@ -17,7 +26,7 @@ public class GridManager : MonoBehaviour {
 
         //Sort all entities in the scene into the proper maps and set their grid coordinates
         foreach (Entity entity in allEntities) {
-            Vector2Int coords = new Vector2Int((int)entity.transform.position.x, (int)entity.transform.position.z);
+            Vector2Int coords = new Vector2Int((int) Mathf.Round(entity.transform.position.x), (int) Mathf.Round(entity.transform.position.z));
             entity.coords = coords;
 
             switch (entity.type) {
@@ -40,8 +49,16 @@ public class GridManager : MonoBehaviour {
         }
 	}
 
-    //Moves entity from its current position to the destination (if possible)
-    public bool MoveTo(Entity movingEntity, Vector2Int destination) {
+	private void Update() {
+        Vector3 mousePos = UnityEngine.InputSystem.Mouse.current.position.ReadValue();
+        mousePos.z = Camera.main.transform.position.y;
+        mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+        Vector2Int mouseCoords = new Vector2Int((int) Mathf.Round(mousePos.x), (int) Mathf.Round(mousePos.z));
+        tileHighlighter.transform.position = new Vector3(mouseCoords.x, tileHighlighter.transform.position.y, mouseCoords.y);
+	}
+
+	//Moves entity from its current position to the destination (if possible)
+	public bool MoveTo(Entity movingEntity, Vector2Int destination) {
         if (!IsSpaceEmpty(destination, movingEntity.type))
             return false;
 
@@ -124,5 +141,13 @@ public class GridManager : MonoBehaviour {
 		}
 
         return diceInRange;
+	}
+
+    public Vector2Int GetMouseCoords() {
+        return new Vector2Int((int) tileHighlighter.transform.position.x, (int) tileHighlighter.transform.position.z);
+	}
+    public Entity GetEntityUnderMouse() {
+        Vector2Int coords = GetMouseCoords();
+        return physicalEntityMap[coords.x, coords.y];
 	}
 }
