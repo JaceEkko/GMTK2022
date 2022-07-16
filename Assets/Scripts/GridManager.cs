@@ -61,7 +61,6 @@ public class GridManager : MonoBehaviour {
 	public bool MoveTo(Entity movingEntity, Vector2Int destination) {
         if (!IsSpaceEmpty(destination, movingEntity.type))
             return false;
-
 		switch (movingEntity.type) {
             case EntityType.Die:
                 break;
@@ -115,14 +114,13 @@ public class GridManager : MonoBehaviour {
     public bool IsSpaceEmpty(Vector2Int coords, EntityType type) {
         if (coords.x < 0 || coords.x >= width || coords.y < 0 || coords.y >= height)
             return false;
-
 		switch (type) {
             case EntityType.Die: //Dice can overlap
                 return true;
             case EntityType.NonPhysical: //Nonphys can overwrite each other
                 return true;
             default:
-                return (physicalEntityMap[coords.x, coords.y] != null);
+                return (physicalEntityMap[coords.x, coords.y] == null);
         }
 	}
 

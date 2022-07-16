@@ -41,9 +41,45 @@ public partial class @CharacterInputs : IInputActionCollection2, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""feb730d7-d84a-49f4-9dec-8f49a2a9d54e"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
+                    ""processors"": ""NormalizeVector2"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Diagonal NW"",
+                    ""type"": ""Button"",
+                    ""id"": ""7e49b675-ac99-4b0c-a29e-42d9f20458bb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Diagonal NE"",
+                    ""type"": ""Button"",
+                    ""id"": ""1d0af052-47ac-4e36-b93d-6f912adf7805"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Diagonal SE"",
+                    ""type"": ""Button"",
+                    ""id"": ""7798c44d-2f08-497f-8b38-286122236a60"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Diagonal SW"",
+                    ""type"": ""Button"",
+                    ""id"": ""d3064344-813d-4370-8c47-fda22099dd22"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -167,6 +203,105 @@ public partial class @CharacterInputs : IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Numpad"",
+                    ""id"": ""bf156122-ba01-4b40-bc39-95c3e6958881"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""8859ded4-6297-42b2-9f18-289bfe6f924b"",
+                    ""path"": ""<Keyboard>/numpad8"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""ec80d2e7-52e4-4ab7-b13c-5ca9520ce380"",
+                    ""path"": ""<Keyboard>/numpad2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""c79b414a-aad6-4bf2-a154-575ae7c3c687"",
+                    ""path"": ""<Keyboard>/numpad4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""057ef58a-8548-4685-b9d3-b3927275f296"",
+                    ""path"": ""<Keyboard>/numpad6"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7db4d94a-2aef-4c6a-bbb7-9faee52eb6c1"",
+                    ""path"": ""<Keyboard>/numpad7"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Diagonal NW"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5f5a37d8-0d1c-4119-bac2-db8b312b6118"",
+                    ""path"": ""<Keyboard>/numpad9"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Diagonal NE"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""450c750e-633d-4ab7-a1b6-bcf60a1364b2"",
+                    ""path"": ""<Keyboard>/numpad3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Diagonal SE"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b730f1c6-c634-4845-a253-b80fb2c60b01"",
+                    ""path"": ""<Keyboard>/numpad1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Diagonal SW"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -177,6 +312,10 @@ public partial class @CharacterInputs : IInputActionCollection2, IDisposable
         m_PlayerControls = asset.FindActionMap("PlayerControls", throwIfNotFound: true);
         m_PlayerControls_ThrowDie = m_PlayerControls.FindAction("ThrowDie", throwIfNotFound: true);
         m_PlayerControls_Move = m_PlayerControls.FindAction("Move", throwIfNotFound: true);
+        m_PlayerControls_DiagonalNW = m_PlayerControls.FindAction("Diagonal NW", throwIfNotFound: true);
+        m_PlayerControls_DiagonalNE = m_PlayerControls.FindAction("Diagonal NE", throwIfNotFound: true);
+        m_PlayerControls_DiagonalSE = m_PlayerControls.FindAction("Diagonal SE", throwIfNotFound: true);
+        m_PlayerControls_DiagonalSW = m_PlayerControls.FindAction("Diagonal SW", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -238,12 +377,20 @@ public partial class @CharacterInputs : IInputActionCollection2, IDisposable
     private IPlayerControlsActions m_PlayerControlsActionsCallbackInterface;
     private readonly InputAction m_PlayerControls_ThrowDie;
     private readonly InputAction m_PlayerControls_Move;
+    private readonly InputAction m_PlayerControls_DiagonalNW;
+    private readonly InputAction m_PlayerControls_DiagonalNE;
+    private readonly InputAction m_PlayerControls_DiagonalSE;
+    private readonly InputAction m_PlayerControls_DiagonalSW;
     public struct PlayerControlsActions
     {
         private @CharacterInputs m_Wrapper;
         public PlayerControlsActions(@CharacterInputs wrapper) { m_Wrapper = wrapper; }
         public InputAction @ThrowDie => m_Wrapper.m_PlayerControls_ThrowDie;
         public InputAction @Move => m_Wrapper.m_PlayerControls_Move;
+        public InputAction @DiagonalNW => m_Wrapper.m_PlayerControls_DiagonalNW;
+        public InputAction @DiagonalNE => m_Wrapper.m_PlayerControls_DiagonalNE;
+        public InputAction @DiagonalSE => m_Wrapper.m_PlayerControls_DiagonalSE;
+        public InputAction @DiagonalSW => m_Wrapper.m_PlayerControls_DiagonalSW;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -259,6 +406,18 @@ public partial class @CharacterInputs : IInputActionCollection2, IDisposable
                 @Move.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnMove;
+                @DiagonalNW.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDiagonalNW;
+                @DiagonalNW.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDiagonalNW;
+                @DiagonalNW.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDiagonalNW;
+                @DiagonalNE.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDiagonalNE;
+                @DiagonalNE.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDiagonalNE;
+                @DiagonalNE.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDiagonalNE;
+                @DiagonalSE.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDiagonalSE;
+                @DiagonalSE.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDiagonalSE;
+                @DiagonalSE.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDiagonalSE;
+                @DiagonalSW.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDiagonalSW;
+                @DiagonalSW.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDiagonalSW;
+                @DiagonalSW.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDiagonalSW;
             }
             m_Wrapper.m_PlayerControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -269,6 +428,18 @@ public partial class @CharacterInputs : IInputActionCollection2, IDisposable
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
+                @DiagonalNW.started += instance.OnDiagonalNW;
+                @DiagonalNW.performed += instance.OnDiagonalNW;
+                @DiagonalNW.canceled += instance.OnDiagonalNW;
+                @DiagonalNE.started += instance.OnDiagonalNE;
+                @DiagonalNE.performed += instance.OnDiagonalNE;
+                @DiagonalNE.canceled += instance.OnDiagonalNE;
+                @DiagonalSE.started += instance.OnDiagonalSE;
+                @DiagonalSE.performed += instance.OnDiagonalSE;
+                @DiagonalSE.canceled += instance.OnDiagonalSE;
+                @DiagonalSW.started += instance.OnDiagonalSW;
+                @DiagonalSW.performed += instance.OnDiagonalSW;
+                @DiagonalSW.canceled += instance.OnDiagonalSW;
             }
         }
     }
@@ -277,5 +448,9 @@ public partial class @CharacterInputs : IInputActionCollection2, IDisposable
     {
         void OnThrowDie(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
+        void OnDiagonalNW(InputAction.CallbackContext context);
+        void OnDiagonalNE(InputAction.CallbackContext context);
+        void OnDiagonalSE(InputAction.CallbackContext context);
+        void OnDiagonalSW(InputAction.CallbackContext context);
     }
 }
