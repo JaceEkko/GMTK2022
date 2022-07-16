@@ -26,7 +26,7 @@ public class GridManager : MonoBehaviour {
 
         //Sort all entities in the scene into the proper maps and set their grid coordinates
         foreach (Entity entity in allEntities) {
-            Vector2Int coords = new Vector2Int((int) Mathf.Round(entity.transform.position.x), (int) Mathf.Round(entity.transform.position.z));
+            Vector2Int coords = WorldspaceToCoords(entity.transform.position);
             entity.coords = coords;
 
             switch (entity.type) {
@@ -53,12 +53,13 @@ public class GridManager : MonoBehaviour {
         Vector3 mousePos = UnityEngine.InputSystem.Mouse.current.position.ReadValue();
         mousePos.z = Camera.main.transform.position.y;
         mousePos = Camera.main.ScreenToWorldPoint(mousePos);
-        Vector2Int mouseCoords = new Vector2Int((int) Mathf.Round(mousePos.x), (int) Mathf.Round(mousePos.z));
+        Vector2Int mouseCoords = WorldspaceToCoords(mousePos);
         tileHighlighter.transform.position = new Vector3(mouseCoords.x, tileHighlighter.transform.position.y, mouseCoords.y);
 	}
 
 	//Moves entity from its current position to the destination (if possible)
-	public bool MoveTo(Entity movingEntity, Vector2Int destination) {
+    //If moveVisiblePosition is false, the object's actual transform won't be updated. Use when the entity should move itself with an animation or something
+	public bool MoveTo(Entity movingEntity, Vector2Int destination, bool moveVisiblePosition = false) {
         if (!IsSpaceEmpty(destination, movingEntity.type))
             return false;
 		switch (movingEntity.type) {
@@ -74,7 +75,8 @@ public class GridManager : MonoBehaviour {
                 break;
         }
         movingEntity.coords = destination;
-        movingEntity.UpdatePosition();
+        if(moveVisiblePosition)
+            movingEntity.UpdatePosition();
         return true;
 	}
 
@@ -142,10 +144,17 @@ public class GridManager : MonoBehaviour {
 	}
 
     public Vector2Int GetMouseCoords() {
-        return new Vector2Int((int) tileHighlighter.transform.position.x, (int) tileHighlighter.transform.position.z);
+        return WorldspaceToCoords(tileHighlighter.transform.position);
 	}
     public Entity GetEntityUnderMouse() {
         Vector2Int coords = GetMouseCoords();
         return physicalEntityMap[coords.x, coords.y];
+	}
+
+    public Vector2Int WorldspaceToCoords(Vector2 worldspace) {
+        return new Vector2Int((int)Mathf.Round(worldspace.x), (int)Mathf.Round(worldspace.y));
+    }
+    public Vector2Int WorldspaceToCoords(Vector3 worldspace) {
+        return WorldspaceToCoords(new Vector2(worldspace.x, worldspace.z));
 	}
 }
