@@ -8,7 +8,6 @@ public class Player : Character
     CharacterInputs characterInput;
 
     bool isThrowDiePressed = false;
-    bool isMovePressed = false;
 
     void Awake()
     {
@@ -19,11 +18,11 @@ public class Player : Character
         characterInput.PlayerControls.Enable();
 
         //Jump
-        characterInput.PlayerControls.ThrowDie.started += onThrowDie;
-        characterInput.PlayerControls.ThrowDie.canceled += onThrowDie;
+        characterInput.PlayerControls.ThrowDie.started += OnThrowDie;
+        characterInput.PlayerControls.ThrowDie.canceled += OnThrowDie;
     }
 
-    void onThrowDie(InputAction.CallbackContext _context) {
+    void OnThrowDie(InputAction.CallbackContext _context) {
         isThrowDiePressed = _context.ReadValueAsButton();
     }
 
@@ -33,5 +32,11 @@ public class Player : Character
             Debug.Log("Waiting For Player: " + name); ;
             yield return new WaitForEndOfFrame();
         }
+    }
+
+    private void OnMove(InputValue value) {
+        Vector2Int destination = new Vector2Int(coords.x + (int) value.Get<Vector2>().x, coords.y + (int) value.Get<Vector2>().y);
+        Debug.Log("Moving " + value.Get<Vector2>());
+        GridManager.instance.MoveTo(this, destination);
     }
 }
