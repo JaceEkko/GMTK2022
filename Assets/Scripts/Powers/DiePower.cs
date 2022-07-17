@@ -7,11 +7,12 @@ public class DiePower
     Die die;
 
     public enum DamageType { 
-        PLASMA,
-        CRYO,
-        ZAP
+        Plasma,
+        Cryo,
+        Zap
     };
     DamageType powerDamage;
+    public float damageOutput = 5.0f;
 
     public Die Die { get => die; set => die = value; }
 
@@ -24,6 +25,22 @@ public class DiePower
         yield return null;
     }
 
+    public virtual void Attack() { }
 
+    public void DetermineDamageOutput(DamageType _damageType) {
+        switch (_damageType) {
+            case DamageType.Plasma:
+                damageOutput = 5.0f;
+                break;
+            case DamageType.Cryo:
+                damageOutput = 7.0f;
+                break;
+            case DamageType.Zap:
+                damageOutput = 10.0f;
+                break;
+            default:
+                break;
+        }
+    }
 
 }

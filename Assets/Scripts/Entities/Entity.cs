@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Entity : MonoBehaviour
 {
-    float healthPoints;
+    float healthPoints = 50f;
     public EntityType type = EntityType.IndestructibleObj;
 
     public Vector2Int coords { get; set; }
@@ -18,5 +18,9 @@ public abstract class Entity : MonoBehaviour
 
     public void UpdatePosition() {
         transform.position = new Vector3(coords.x, transform.position.y, coords.y);
+    }
+
+    public void SetHealthPoints(float _newHealth) {
+        healthPoints = _newHealth;
     }
 }
