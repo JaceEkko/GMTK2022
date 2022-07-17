@@ -129,16 +129,14 @@ public class GridManager : MonoBehaviour {
     //Returns a list of all dice that can be picked up at the position myCoords
     public List<Die> CheckForAdjacentDice(Character checkingCharacter, bool canPickUpAnyDie) {
         List<Die> diceInRange = new List<Die>();
-        foreach(Die die in allDice) {
-			if (die.IsThrown()) {
-                if(die.coords.x >= checkingCharacter.coords.x - 1 && die.coords.x <= checkingCharacter.coords.x + 1
-                    && die.coords.y >= checkingCharacter.coords.y - 1 && die.coords.y <= checkingCharacter.coords.y + 1) {
+        foreach (Die die in allDice) {
+            if (die.coords.x >= checkingCharacter.coords.x - 1 && die.coords.x <= checkingCharacter.coords.x + 1
+                && die.coords.y >= checkingCharacter.coords.y - 1 && die.coords.y <= checkingCharacter.coords.y + 1) {
 
-                    if (canPickUpAnyDie || die.GetOwner() == checkingCharacter)
-                        diceInRange.Add(die);
-				}
-			}
-		}
+                if (canPickUpAnyDie || die.GetOwner() == checkingCharacter)
+                    diceInRange.Add(die);
+            }
+        }
 
         return diceInRange;
 	}

@@ -8,18 +8,38 @@ public class NonAimedDiePower : DiePower
 {
     public enum Pattern
     {
-        Cross
+        AOE,
+        Basic,
+        Border,
+        Cross,
+        Flake,
+        Puddle,
+        Speratic,
+        Star,
+        Strike,
+        TwinForkLeft,
+        TwinForkRight
     };
     List<string> patternFileLocs = new List<string>() { "Pattern_Cross.txt" };
     Pattern powerPattern;
 
+    float dieDeactivateTime = 2.0f;
+
+    GameObject hazardPrefab;
+
     public NonAimedDiePower(DamageType _damageType, Pattern _pattern, Die _die) : base(_damageType, _die) {
         powerPattern = _pattern;
-        CallPattern();
+        hazardPrefab = Resources.Load(_damageType + "Hazard") as GameObject;
+        DetermineDamageOutput(_damageType);
     }
 
-    void CallPattern() {
-        StreamReader patternFile = new System.IO.StreamReader(Application.dataPath + "/Resources/Patterns/Pattern_" + powerPattern + ".txt");
+    public override IEnumerator ActivatePower() {
+        Attack(); //initiate attack
+        yield return new WaitForSeconds(dieDeactivateTime); //wait a set amount of time before moving on
+    }
+
+    public override void Attack() {
+        StreamReader patternFile = new StreamReader(Application.dataPath + "/Resources/Patterns/Pattern_" + powerPattern + ".txt");
         string[] startPoint = patternFile.ReadLine().Split(',');
         int startPosX = Die.coords.x - Convert.ToInt32(startPoint[0]);
         int startPosY = Die.coords.y + Convert.ToInt32(startPoint[1]);
@@ -29,21 +49,30 @@ public class NonAimedDiePower : DiePower
         int currentGridY = startPosY;
         while ((patternInTxt = patternFile.ReadLine()) != null) {
             string[] gridRow = patternInTxt.Split(',');
-            for (var gSpace = 0; gSpace < gridRow.Length; gSpace++) {
-                DetermineHazardAtCoords(gridRow[gSpace]);
+            for (int x = 0; x < gridRow.Length; ++x) {
+                Vector2Int gridSpace = new Vector2Int(currentGridX, currentGridY);
+                bool hasHazard = gridRow[x] == "1"? true : false;
+                DetermineHazardAtCoords(gridSpace, hasHazard);
                 currentGridX++;
             }
-            currentGridY++;
+            currentGridX = startPosX;
+            currentGridY--;
         }
-        //string patternInTxt;
-        /*while ((patternInTxt = patternFile.ReadLine()) != null) { //while text exists.. repeat
-            string[] gridSpaces = patternInTxt.Split(',');
-            Debug.Log(patternInTxt);
-        }
-        patternFile.Close();*/
+        patternFile.Close();
     }
 
-    void DetermineHazardAtCoords(string _hasHazard) {
-        
+    void DetermineHazardAtCoords(Vector2Int coords, bool _hasHazard) {
+        //bool spaceHasEnemy = Die.GridManager.IsSpaceEmpty(coords, EntityType.Enemy);
+        Entity e = GridManager.instance.GetEntityOnTile(coords, EntityType.Enemy);
+        //Debug.Log("Space Has Enemy: " + e + " at Coords: " + coords);
+
+        if (_hasHazard) {
+            Die.Instantiate(hazardPrefab, new Vector3(coords.x, 1, coords.y), Quaternion.identity);
+            if (e != null && e.type != EntityType.Die) {
+                Debug.Log(e + " Has been hit");
+                e.SetHealthPoints(e.HealthPoints - damageOutput);
+                Debug.Log(e + "'s Health: " + e.HealthPoints);
+            }
+        }
     }
 }
