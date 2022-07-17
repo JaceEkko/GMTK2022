@@ -35,7 +35,10 @@ public class PatrolEnemy : Enemy {
 			}
 		}
 		else {
-			yield return Patrol();
+			if (patrolPoints != null && patrolPoints.Length > 0)
+				yield return StartCoroutine(Patrol());
+			else
+				yield return StartCoroutine(SkipTurn());
 		}
 	}
 
