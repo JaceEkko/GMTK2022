@@ -61,7 +61,6 @@ public class Player : Character
             //Pick up die
             if(characterInput.PlayerControls.PickUpDie.ReadValue<float>() > 0) {
 				Vector2Int mouseCoords = GridManager.instance.GetMouseCoords();
-                //Debug.Log("Mouse = " + mouseCoords);
                 if(Vector2.Distance(mouseCoords, coords) < 2) {
                     List<Die> pickedUpDice = GridManager.instance.PickUpDiceOnTile(mouseCoords, this);
                     foreach (Die die in pickedUpDice)
@@ -73,6 +72,10 @@ public class Player : Character
             if (intendedDirection.magnitude > 0) {
                 yield return StartCoroutine(Move(intendedDirection));
             }
+            else if(characterInput.PlayerControls.SkipTurn.ReadValue<float>() > 0) {
+                yield return new WaitForEndOfFrame();
+                IsTakingTurn = false;
+			}
             yield return new WaitForEndOfFrame();
         }
     }

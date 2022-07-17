@@ -14,13 +14,30 @@ public abstract class Enemy : Character
     [SerializeField] private List<Die> heldDice;
     protected Player player;
 
+    protected List<Die> diceIveThrown = new List<Die>();
+
     private void Awake()
     {
         type = EntityType.Enemy;
         player = FindObjectOfType<Player>();
 	}
 
-    protected virtual void LookForPlayer() {
+    public override IEnumerator RunTurn() {
+        LookForPlayer();
+        List<Die> pickedUpDice = GridManager.instance.PickUpAllAdjacentDice(this);
+        foreach (Die die in pickedUpDice) {
+            diceIveThrown.Remove(die);
+            AddNewDieToInventory(die);
+        }
+        yield return null;
+	}
+
+	protected override IEnumerator ThrowDie(Vector2 targetTile) {
+        diceIveThrown.Add(currentDieInHand);
+		return base.ThrowDie(targetTile);
+	}
+
+	protected virtual void LookForPlayer() {
         //Check if player is in range and within vision cone
         float distance = Vector3.Distance(transform.position, player.transform.position);
         float angleToPlayer = Vector3.Angle(player.transform.position - transform.position, transform.forward);

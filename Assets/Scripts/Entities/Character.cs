@@ -9,7 +9,16 @@ public abstract class Character : MovableEntity
     protected Die currentDieInHand;
     protected int currentDieIndex = 0;
 
-    public void EquipDie(int _dieIndex) {
+	private void Start() {
+        Die[] heldDice = GetComponentsInChildren<Die>();
+        foreach(Die die in heldDice) {
+            die.SetOwner(this);
+            AddNewDieToInventory(die);
+            GridManager.instance.RemoveEntity(die);
+		}
+	}
+
+	public void EquipDie(int _dieIndex) {
         if(dice.Count < _dieIndex) {
             Debug.LogError("Equipping die index out of range");
             return;
@@ -24,10 +33,10 @@ public abstract class Character : MovableEntity
         //Debug.Log(name + " has selected " + currentDieInHand.name);
     }
 
-    public IEnumerator ThrowDie(Vector2 targetTile) {
-        yield return StartCoroutine(dice[currentDieIndex].BeThrown(targetTile));
+    protected virtual IEnumerator ThrowDie(Vector2 targetTile) {
+        yield return StartCoroutine(currentDieInHand.BeThrown(targetTile));
         IsTakingTurn = false;
-        RemoveDie(dice[currentDieIndex]);
+        RemoveDie(currentDieInHand);
 	}
     
     public void AddNewDieToInventory(Die newDie)

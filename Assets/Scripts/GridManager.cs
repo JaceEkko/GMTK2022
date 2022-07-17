@@ -127,21 +127,6 @@ public class GridManager : MonoBehaviour {
         }
 	}
 
-    //Returns a list of all dice that can be picked up at the position myCoords
-    public List<Die> CheckForAdjacentDice(Character checkingCharacter, bool canPickUpAnyDie) {
-        List<Die> diceInRange = new List<Die>();
-        foreach (Die die in allDice) {
-            if (die.coords.x >= checkingCharacter.coords.x - 1 && die.coords.x <= checkingCharacter.coords.x + 1
-                && die.coords.y >= checkingCharacter.coords.y - 1 && die.coords.y <= checkingCharacter.coords.y + 1) {
-
-                if (canPickUpAnyDie || die.GetOwner() == checkingCharacter)
-                    diceInRange.Add(die);
-            }
-        }
-
-        return diceInRange;
-	}
-
     public Entity GetEntityOnTile(Vector2Int coords, EntityType type) {
         if (coords.x < 0 || coords.x >= width || coords.y < 0 || coords.y >= height)
             return null;
@@ -159,6 +144,7 @@ public class GridManager : MonoBehaviour {
                 return physicalEntityMap[coords.x, coords.y];
         }
     }
+    //Pick up all the dice on the selected tile. Used by player on mouse click
     public List<Die> PickUpDiceOnTile(Vector2Int coords, Character checkingEntity = null) {
         List<Die> diceOnTile = new List<Die>();
         foreach (Die die in allDice) {
@@ -167,7 +153,6 @@ public class GridManager : MonoBehaviour {
         }
         List<Die> dicePickedUp = new List<Die>();
         foreach (Die die in diceOnTile) {
-            Debug.Log("Checking entity for die " + die.name);
             if (checkingEntity == die.GetOwner() || checkingEntity.type == EntityType.Player) {
                 dicePickedUp.Add(die);
                 allDice.Remove(die);
@@ -175,8 +160,44 @@ public class GridManager : MonoBehaviour {
         }
         return dicePickedUp;
     }
+    //Gets all die in a radius around the checker. Used by enemies to pick up any dice they've thrown
+    public List<Die> PickUpAllAdjacentDice(Character checkingCharacter) {
+        List<Die> diceInRange = new List<Die>();
+        foreach (Die die in allDice) {
+            if (die.coords.x >= checkingCharacter.coords.x - 1 && die.coords.x <= checkingCharacter.coords.x + 1
+                && die.coords.y >= checkingCharacter.coords.y - 1 && die.coords.y <= checkingCharacter.coords.y + 1) {
+                diceInRange.Add(die);
+            }
+        }
 
-	public Vector2Int GetMouseCoords() {
+        List<Die> dicePickedUp = new List<Die>();
+        foreach(Die die in diceInRange) {
+            if(checkingCharacter.type == EntityType.Player || die.GetOwner() == checkingCharacter) {
+                dicePickedUp.Add(die);
+                allDice.Remove(die);
+			}
+		}
+
+        return diceInRange;
+    }
+
+    public void RemoveEntity(Entity entity) {
+		switch (entity.type) {
+            case EntityType.Die:
+                allDice.Remove((Die)entity);
+                break;
+            case EntityType.NonPhysical:
+                if (nonPhysicalEntityMap[entity.coords.x, entity.coords.y] == (NonPhysicalEntity)entity)
+                    nonPhysicalEntityMap[entity.coords.x, entity.coords.y] = null;
+                break;
+            default:
+                if (physicalEntityMap[entity.coords.x, entity.coords.y] == entity)
+                    physicalEntityMap[entity.coords.x, entity.coords.y] = null;
+                break;
+        }
+	}
+
+    public Vector2Int GetMouseCoords() {
         return WorldspaceToCoords(tileHighlighter.transform.position);
 	}
     public Entity GetEntityUnderMouse() {

@@ -40,6 +40,21 @@ public abstract class MovableEntity : Entity
 
         yield return StartCoroutine(Move(direction));
     }
+    protected virtual IEnumerator MoveAwayFromEntity(Entity target) {
+        Vector2 direction = Vector2.zero;
+
+        if (target.transform.position.x < transform.position.x)
+            direction.x = 1;
+        else if (target.transform.position.x > transform.position.x)
+            direction.x = -1;
+
+        if (target.transform.position.z < transform.position.z)
+            direction.y = 1;
+        else if (target.transform.position.z > transform.position.z)
+            direction.y = -1;
+
+        yield return StartCoroutine(Move(direction));
+    }
 
     protected IEnumerator MoveToTile(Vector2 coords) {
         if (GridManager.instance.MoveTo(this, new Vector2Int((int)coords.x, (int)coords.y)));

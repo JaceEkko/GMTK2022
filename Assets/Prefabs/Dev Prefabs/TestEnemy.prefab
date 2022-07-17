@@ -108,7 +108,7 @@ MonoBehaviour:
   visionAngle: 65
   diceThrowRange: 7
   heldDice: []
-  desiredDistToPlayer: 4
+  desiredDistToPlayer: 5
 --- !u!1 &1220934298231835245
 GameObject:
   m_ObjectHideFlags: 0
