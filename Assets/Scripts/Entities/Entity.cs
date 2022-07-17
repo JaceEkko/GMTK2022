@@ -39,10 +39,10 @@ public abstract class Entity : MonoBehaviour
             case EntityType.IndestructibleObj:
                 return;
             case EntityType.Enemy:
-                TurnManager.instance.RemoveEnemy((Enemy) this);
+                TurnManager.instance.AddDeadEntity(this);
                 GridManager.instance.RemoveEntity(this);
                 break;
 		}
-        this.gameObject.SetActive(false);
+        TurnManager.instance.AddDeadEntity(this);
 	}
 }

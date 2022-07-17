@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class TurnManager : MonoBehaviour
@@ -12,6 +11,9 @@ public class TurnManager : MonoBehaviour
     private List<Entity> allDice = new List<Entity>();
     private List<Entity> otherEntities = new List<Entity>();
     private List<Entity>[] orderedEntityLists;
+
+    private List<Entity> entitiesDiedThisTurn = new List<Entity>();
+
     public static TurnManager instance { get; private set; }
 
     void Start() {
@@ -49,11 +51,36 @@ public class TurnManager : MonoBehaviour
                     //Debug.Log(entity.name + " taking turn!");
                     entity.IsTakingTurn = true;
                     yield return StartCoroutine(entity.RunTurn());
+                    entity.IsTakingTurn = false;
 				}
+                KillDeadEntities();
 			}
             //Debug.Log("End Round " + currentRound + "!!");
         }
     }
+
+    public void AddDeadEntity(Entity entity) {
+        entitiesDiedThisTurn.Add(entity);
+    }
+    public void KillDeadEntities() {
+        foreach (Entity entity in entitiesDiedThisTurn) {
+            entity.gameObject.SetActive(false);
+            if (entity.type == EntityType.Enemy)
+                RemoveEnemy((Enemy)entity);
+            else if (entity.type == EntityType.Die)
+                RemoveDie((Die)entity);
+            else
+                RemoveEntity(entity);                
+        }
+        entitiesDiedThisTurn.Clear();
+	}
+
+    public void StopRound() {
+        StopAllCoroutines();
+	}
+    public void StartRound() {
+        StartCoroutine(RoundStart());
+	}
 
     public void AddPlayer(Player player) {
         allPlayer.Add(player);

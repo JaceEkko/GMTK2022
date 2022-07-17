@@ -34,7 +34,8 @@ public class GridManager : MonoBehaviour {
                 case EntityType.Die:
                     allDice.Add((Die)entity);
                     break;
-                case EntityType.NonPhysical: //I don't think any nonphysical tiles should be active on start? But maybe
+                case EntityType.NonPhysical:
+                case EntityType.Checkpoint:
                     if (entity.type == EntityType.Checkpoint) {
                         checkpointMap[coords.x, coords.y] = (NonPhysicalEntity)entity;
                     }

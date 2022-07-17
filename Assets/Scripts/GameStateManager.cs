@@ -28,11 +28,13 @@ public class GameStateManager : MonoBehaviour {
 	}
 
     public void Reset() {
+        TurnManager.instance.StopRound();
         foreach (Enemy enemy in allEnemies) {
             enemy.gameObject.SetActive(true);
             enemy.Reset();
         }
 
         GridManager.instance.MoveTo(player, lastCheckpoint, true);
+        TurnManager.instance.StartRound();
     }
 }

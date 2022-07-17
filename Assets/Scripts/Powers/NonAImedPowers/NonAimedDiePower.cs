@@ -35,7 +35,6 @@ public class NonAimedDiePower : DiePower
     public override IEnumerator ActivatePower() {
         Attack(); //initiate attack
         yield return new WaitForSeconds(dieDeactivateTime); //wait a set amount of time before moving on
-        Debug.Log("Waited seconds");
     }
 
     public override void Attack() {
