@@ -143,8 +143,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0173f8f1913b0f4c9929ae794211b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthPoints: 50
   type: 2
-  IsTakingTurn: 1
   moveDuration: 0.1
   turnDuration: 0.1
   throwDuration: 0.1

@@ -35,11 +35,13 @@ public abstract class Character : MovableEntity
     }
 
     protected virtual IEnumerator ThrowDie(Vector2 targetTile) {
+        charAnim.SetBool("isThrowingAnim", true);
         Die thrownDie = currentDieInHand;
         RemoveDie(currentDieInHand);
         yield return StartCoroutine(thrownDie.BeThrown(targetTile));
         IsTakingTurn = false;
-	}
+        charAnim.SetBool("isThrowingAnim", false);
+    }
     
     public void AddNewDieToInventory(Die newDie)
     {
