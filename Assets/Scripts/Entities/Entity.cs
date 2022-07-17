@@ -29,8 +29,10 @@ public abstract class Entity : MonoBehaviour
         if (type != EntityType.IndestructibleObj) {
             healthPoints = _newHealth;
 
-            if (healthPoints <= 0)
+            if (healthPoints <= 0) {
+                healthPoints = 0;
                 Die();
+            }
         }
     }
 

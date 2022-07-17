@@ -9,6 +9,8 @@ public abstract class Character : MovableEntity
     protected Die currentDieInHand;
     protected int currentDieIndex = 0;
 
+    [SerializeField] private TMPro.TextMeshProUGUI hpText;
+
 	protected override void Start() {
         base.Start();
         Die[] heldDice = GetComponentsInChildren<Die>();
@@ -61,6 +63,11 @@ public abstract class Character : MovableEntity
             currentDieInHand = null;
             currentDieIndex = 0;
 		}
+	}
+
+	public override void SetHealthPoints(float _newHealth) {
+		base.SetHealthPoints(_newHealth);
+        hpText.text = HealthPoints.ToString();
 	}
 
 	protected override void Die() {
