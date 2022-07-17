@@ -4,11 +4,32 @@ using UnityEngine;
 
 public class DieInHandLocScript : MonoBehaviour
 {
-    float floatOscillation = 0.5f;
+    // User Inputs
+    float degreesPerSecond = 15.0f;
+    float amplitude = 0.1f;
+    float frequency = 0.5f;
 
+    // Position Storage Variables
+    Vector3 posOffset = new Vector3();
+    Vector3 tempPos = new Vector3();
+
+    // Use this for initialization
+    void Start()
+    {
+        // Store the starting position & rotation of the object
+        posOffset = transform.position;
+    }
+
+    // Update is called once per frame
     void Update()
     {
-        //float verticalMovement = transform.position.y + Mathf.Sin(floatOscillation);
-        //transform.Translate(new Vector3(transform.position.x, verticalMovement, transform.position.z) * Time.deltaTime);
+        // Spin object around Y-Axis
+        //transform.Rotate(new Vector3(0f, Time.deltaTime * degreesPerSecond, 0f), Space.World);
+
+        // Float up/down with a Sin()
+        tempPos = posOffset;
+        tempPos.y += Mathf.Sin(Time.fixedTime * Mathf.PI * frequency) * amplitude;
+
+        transform.position = tempPos;
     }
 }

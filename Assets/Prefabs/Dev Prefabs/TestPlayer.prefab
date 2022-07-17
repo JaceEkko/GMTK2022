@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8543325181016016801}
   - component: {fileID: 2937055546310528606}
   - component: {fileID: 2937055546310528605}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TestPlayer
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -162,7 +162,7 @@ GameObject:
   - component: {fileID: 4702000887727068954}
   - component: {fileID: 7371921689733659014}
   - component: {fileID: 4283544494483166902}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Face
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -257,7 +257,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7957706593412935424}
   - component: {fileID: 7694180604263831782}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Held Die Location
   m_TagString: Untagged
   m_Icon: {fileID: 0}

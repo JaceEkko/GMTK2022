@@ -100,6 +100,7 @@ public class GridManager : MonoBehaviour {
 
         switch (newEntity.type) {
             case EntityType.Die:
+                allDice.Add((Die) newEntity);
                 break;
             case EntityType.NonPhysical:
                 nonPhysicalEntityMap[destination.x, destination.y] = (NonPhysicalEntity)newEntity;
@@ -129,16 +130,14 @@ public class GridManager : MonoBehaviour {
     //Returns a list of all dice that can be picked up at the position myCoords
     public List<Die> CheckForAdjacentDice(Character checkingCharacter, bool canPickUpAnyDie) {
         List<Die> diceInRange = new List<Die>();
-        foreach(Die die in allDice) {
-			if (die.IsThrown()) {
-                if(die.coords.x >= checkingCharacter.coords.x - 1 && die.coords.x <= checkingCharacter.coords.x + 1
-                    && die.coords.y >= checkingCharacter.coords.y - 1 && die.coords.y <= checkingCharacter.coords.y + 1) {
+        foreach (Die die in allDice) {
+            if (die.coords.x >= checkingCharacter.coords.x - 1 && die.coords.x <= checkingCharacter.coords.x + 1
+                && die.coords.y >= checkingCharacter.coords.y - 1 && die.coords.y <= checkingCharacter.coords.y + 1) {
 
-                    if (canPickUpAnyDie || die.GetOwner() == checkingCharacter)
-                        diceInRange.Add(die);
-				}
-			}
-		}
+                if (canPickUpAnyDie || die.GetOwner() == checkingCharacter)
+                    diceInRange.Add(die);
+            }
+        }
 
         return diceInRange;
 	}
@@ -148,6 +147,7 @@ public class GridManager : MonoBehaviour {
             return null;
         switch (type) {
             case EntityType.Die:
+                Debug.LogWarning("Did you mean to use GetDieOnTile instead?"); //todo should all the tilemaps be converted to store lists??
                 foreach(Die die in allDice) {
                     if (die.coords.x == coords.x && die.coords.y == coords.y)
                         return die;
@@ -158,6 +158,22 @@ public class GridManager : MonoBehaviour {
             default:
                 return physicalEntityMap[coords.x, coords.y];
         }
+    }
+    public List<Die> PickUpDiceOnTile(Vector2Int coords, Character checkingEntity = null) {
+        List<Die> diceOnTile = new List<Die>();
+        foreach (Die die in allDice) {
+            if (die.coords.x == coords.x && die.coords.y == coords.y)
+                diceOnTile.Add(die);
+        }
+        List<Die> dicePickedUp = new List<Die>();
+        foreach (Die die in diceOnTile) {
+            Debug.Log("Checking entity for die " + die.name);
+            if (checkingEntity == die.GetOwner() || checkingEntity.type == EntityType.Player) {
+                dicePickedUp.Add(die);
+                allDice.Remove(die);
+            }
+        }
+        return dicePickedUp;
     }
 
 	public Vector2Int GetMouseCoords() {

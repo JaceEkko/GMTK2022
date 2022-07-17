@@ -23,13 +23,16 @@ public class Player : Character
 
     void Start()
     {
-        AddNewDieToInventory(Instantiate(Resources.Load("TestDiePrefab") as GameObject).GetComponent<Die>());
-        AddNewDieToInventory(Instantiate(Resources.Load("TestDiePrefab 1") as GameObject).GetComponent<Die>());
-        AddNewDieToInventory(Instantiate(Resources.Load("TestDiePrefab 2") as GameObject).GetComponent<Die>());
-
+        //Add 3 dice to inventory for testing
+        AddNewDieToInventory(Instantiate(Resources.Load("PlasmaDie") as GameObject).GetComponent<Die>());
+        AddNewDieToInventory(Instantiate(Resources.Load("CryoDie") as GameObject).GetComponent<Die>());
+        AddNewDieToInventory(Instantiate(Resources.Load("ZapDie") as GameObject).GetComponent<Die>());
     }
 
     void OnEquipDice(InputAction.CallbackContext _context) {
+        if (dice.Count == 0)
+            return;
+
         var scroll = _context.ReadValue<float>();
         if(scroll == 0) {
             return;
@@ -48,11 +51,23 @@ public class Player : Character
 
     public override IEnumerator RunTurn() {
         while (IsTakingTurn) {
+            //Throw die
             if (currentDieInHand != null) {
                 if (characterInput.PlayerControls.ThrowDie.ReadValue<float>() > 0) {
-                    yield return StartCoroutine(ThrowDie());
+                    yield return StartCoroutine(ThrowDie(GridManager.instance.GetMouseCoords()));
                 }
             }
+
+            //Pick up die
+            if(characterInput.PlayerControls.PickUpDie.ReadValue<float>() > 0) {
+				Vector2Int mouseCoords = GridManager.instance.GetMouseCoords();
+                //Debug.Log("Mouse = " + mouseCoords);
+                if(Vector2.Distance(mouseCoords, coords) < 2) {
+                    List<Die> pickedUpDice = GridManager.instance.PickUpDiceOnTile(mouseCoords, this);
+                    foreach (Die die in pickedUpDice)
+                        AddNewDieToInventory(die);
+				}
+			}
 
             Vector2 intendedDirection = GetMovementDirection();
             if (intendedDirection.magnitude > 0) {

@@ -63,7 +63,7 @@ public class NonAimedDiePower : DiePower
 
     void DetermineHazardAtCoords(Vector2Int coords, bool _hasHazard) {
         //bool spaceHasEnemy = Die.GridManager.IsSpaceEmpty(coords, EntityType.Enemy);
-        Entity e = Die.GridManager.GetEntityOnTile(coords, EntityType.Enemy);
+        Entity e = GridManager.instance.GetEntityOnTile(coords, EntityType.Enemy);
         //Debug.Log("Space Has Enemy: " + e + " at Coords: " + coords);
 
         if (_hasHazard) {
