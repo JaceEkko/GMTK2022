@@ -445,7 +445,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh30658
+  m_Name: pb_Mesh54182
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -754,6 +754,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &1503013801 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8934036899583259032, guid: 4ea1e9a340953a747ba0dd2bff52c209, type: 3}
+  m_PrefabInstance: {fileID: 271431642}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1503013803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1503013801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 144e203e2dc4519429562120f858b559, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1621675833
 PrefabInstance:
   m_ObjectHideFlags: 0
