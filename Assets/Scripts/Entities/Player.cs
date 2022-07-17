@@ -24,9 +24,9 @@ public class Player : Character
     void Start()
     {
         //Add 3 dice to inventory for testing
-        AddNewDieToInventory(Instantiate(Resources.Load("TestDiePrefab") as GameObject).GetComponent<Die>());
-        AddNewDieToInventory(Instantiate(Resources.Load("TestDiePrefab 1") as GameObject).GetComponent<Die>());
-        AddNewDieToInventory(Instantiate(Resources.Load("TestDiePrefab 2") as GameObject).GetComponent<Die>());
+        AddNewDieToInventory(Instantiate(Resources.Load("PlasmaDie") as GameObject).GetComponent<Die>());
+        AddNewDieToInventory(Instantiate(Resources.Load("CryoDie") as GameObject).GetComponent<Die>());
+        AddNewDieToInventory(Instantiate(Resources.Load("ZapDie") as GameObject).GetComponent<Die>());
     }
 
     void OnEquipDice(InputAction.CallbackContext _context) {

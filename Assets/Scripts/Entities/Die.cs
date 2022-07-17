@@ -28,9 +28,9 @@ public class Die : MovableEntity
 
     //Lerps die to target, but stops if it hits a wall
     public IEnumerator BeThrown(Vector2 destination) {
+        transform.parent = null;
         Vector3 destinationIn3D = new Vector3(destination.x, transform.position.y, destination.y);
         coords = GridManager.WorldspaceToCoords(destination);
-        transform.parent = null;
 
         RaycastHit hitInfo;
         Vector3 collisionPosition = Vector3.positiveInfinity;

@@ -35,6 +35,7 @@ public abstract class Character : MovableEntity
         dice.Add(newDie);
         newDie.transform.parent = equippedDieLocation;
         newDie.transform.localPosition = Vector3.zero;
+        TurnManager.instance.RemoveDie(newDie);
         EquipDie(dice.Count - 1);
         if (newDie.GetOwner() == null)
             newDie.SetOwner(this);

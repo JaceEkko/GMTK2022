@@ -100,6 +100,7 @@ public class GridManager : MonoBehaviour {
 
         switch (newEntity.type) {
             case EntityType.Die:
+                allDice.Add((Die) newEntity);
                 break;
             case EntityType.NonPhysical:
                 nonPhysicalEntityMap[destination.x, destination.y] = (NonPhysicalEntity)newEntity;
