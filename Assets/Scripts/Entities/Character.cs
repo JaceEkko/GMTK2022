@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Character : MovableEntity
 {
-    [SerializeField] protected List<Die> dice = new List<Die>();
+    protected List<Die> dice = new List<Die>();
     [SerializeField] private Transform equippedDieLocation;
     protected Die currentDieInHand;
     protected int currentDieIndex = 0;
