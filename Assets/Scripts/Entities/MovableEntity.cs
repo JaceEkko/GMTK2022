@@ -12,6 +12,8 @@ public abstract class MovableEntity : Entity
     TurnManager turnManager;
     public TurnManager TurnManagerCall { get => turnManager; set => turnManager = value; }
 
+    public Animator charAnim;
+
     private void Awake()
     {
         type = EntityType.IndestructibleObj;
@@ -62,6 +64,7 @@ public abstract class MovableEntity : Entity
     }
 
     protected virtual IEnumerator AnimateMoveToCoords() {
+        charAnim.SetBool("isMovingAnim", true);
         Vector3 originalPosition = transform.position;
         float timer = 0;
         while(timer < moveDuration) {
@@ -70,6 +73,7 @@ public abstract class MovableEntity : Entity
             timer += Time.deltaTime;
             yield return new WaitForEndOfFrame();
 		}
+        charAnim.SetBool("isMovingAnim", false);
         UpdatePosition();
         IsTakingTurn = false;
     }
