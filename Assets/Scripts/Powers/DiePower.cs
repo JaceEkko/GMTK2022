@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DiePower
+public abstract class DiePower
 {
     Die die;
 
@@ -21,11 +21,9 @@ public class DiePower
         powerDamage = _damageType;
     }
 
-    public virtual IEnumerator ActivatePower() {
-        yield return null;
-    }
+    public abstract IEnumerator ActivatePower();
 
-    public virtual void Attack() { }
+    public abstract void Attack();
 
     public void DetermineDamageOutput(DamageType _damageType) {
         switch (_damageType) {

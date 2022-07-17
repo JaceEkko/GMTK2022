@@ -9,7 +9,8 @@ public abstract class Character : MovableEntity
     protected Die currentDieInHand;
     protected int currentDieIndex = 0;
 
-	private void Start() {
+	protected override void Start() {
+        base.Start();
         Die[] heldDice = GetComponentsInChildren<Die>();
         foreach(Die die in heldDice) {
             die.SetOwner(this);
@@ -34,9 +35,10 @@ public abstract class Character : MovableEntity
     }
 
     protected virtual IEnumerator ThrowDie(Vector2 targetTile) {
-        yield return StartCoroutine(currentDieInHand.BeThrown(targetTile));
-        IsTakingTurn = false;
+        Die thrownDie = currentDieInHand;
         RemoveDie(currentDieInHand);
+        yield return StartCoroutine(thrownDie.BeThrown(targetTile));
+        IsTakingTurn = false;
 	}
     
     public void AddNewDieToInventory(Die newDie)
@@ -55,5 +57,30 @@ public abstract class Character : MovableEntity
             currentDieInHand = null;
             currentDieIndex = 0;
 		}
+	}
+
+	protected override void Die() {
+        int x = -1;
+        int y = -1;
+        foreach(Die die in dice) {
+            die.SetOwner(null);
+            die.transform.parent = null;
+
+            GridManager.instance.PlaceNewEntity(die, new Vector2Int(coords.x + x, coords.y + y));
+            x++;
+            if (x == 2) {
+                x = -1;
+                y++;
+			}
+            if(y == 2) {
+                y = -1;
+			}
+		}
+
+		base.Die();
+	}
+
+    public virtual void Reset() {
+        SetHealthPoints(initialHP);
 	}
 }

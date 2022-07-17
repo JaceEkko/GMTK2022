@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlasmaDie : Die
 {
-    private void Start()
-    {
+    protected override void Start() {
+        base.Start();
         //Temporarily adding powers to dies
         DiePowers.Add(new NonAimedDiePower(DiePower.DamageType.Plasma, NonAimedDiePower.Pattern.AOE, this));
         DiePowers.Add(new NonAimedDiePower(DiePower.DamageType.Plasma, NonAimedDiePower.Pattern.Basic, this));

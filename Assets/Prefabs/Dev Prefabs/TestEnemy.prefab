@@ -98,11 +98,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65e7fde393b088842892399673099e16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 3
-  IsTakingTurn: 1
+  healthPoints: 10
+  type: 1
   moveDuration: 0.1
   turnDuration: 0.1
-  dice: []
   equippedDieLocation: {fileID: 7861713576278679005}
   visionRange: 10
   visionAngle: 65

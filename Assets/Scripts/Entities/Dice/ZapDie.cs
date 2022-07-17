@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ZapDie : Die
 {
-    private void Start()
-    {
+    protected override void Start() {
+        base.Start();
         //Temporarily adding powers to dies
         DiePowers.Add(new NonAimedDiePower(DiePower.DamageType.Zap, NonAimedDiePower.Pattern.TwinForkLeft, this));
         DiePowers.Add(new NonAimedDiePower(DiePower.DamageType.Zap, NonAimedDiePower.Pattern.Basic, this));

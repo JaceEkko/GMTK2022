@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 4225623711829194680}
   - component: {fileID: 4225623711829194681}
   - component: {fileID: 4225623711829194686}
+  - component: {fileID: 9048150633838826455}
   m_Layer: 0
   m_Name: TestGrid
   m_TagString: Untagged
@@ -145,10 +146,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f0da1007ecb37c418a05c287abf0a67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allPlayer: []
-  allEnemy: []
-  allDie: []
-  turnPrecedence: []
+--- !u!114 &9048150633838826455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4225623711829194683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e94c7039d092f14418a7912f3e710c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4225623712897790585
 GameObject:
   m_ObjectHideFlags: 0

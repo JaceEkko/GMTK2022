@@ -7,8 +7,6 @@ public class Player : Character
 {
     private CharacterInputs characterInput;
 
-    private bool isThrowDiePressed = false;
-
     void Awake()
     {
         type = EntityType.Player;
@@ -21,8 +19,9 @@ public class Player : Character
         characterInput.PlayerControls.EquipDie.performed += OnEquipDice;
     }
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         //Add 3 dice to inventory for testing
         AddNewDieToInventory(Instantiate(Resources.Load("PlasmaDie") as GameObject).GetComponent<Die>());
         AddNewDieToInventory(Instantiate(Resources.Load("CryoDie") as GameObject).GetComponent<Die>());
@@ -55,6 +54,7 @@ public class Player : Character
             if (currentDieInHand != null) {
                 if (characterInput.PlayerControls.ThrowDie.ReadValue<float>() > 0) {
                     yield return StartCoroutine(ThrowDie(GridManager.instance.GetMouseCoords()));
+                    break;
                 }
             }
 
@@ -73,14 +73,18 @@ public class Player : Character
                 yield return StartCoroutine(Move(intendedDirection));
             }
             else if(characterInput.PlayerControls.SkipTurn.ReadValue<float>() > 0) {
-                yield return new WaitForEndOfFrame();
                 IsTakingTurn = false;
+                break;
 			}
             yield return new WaitForEndOfFrame();
         }
     }
 
-    private Vector2 GetMovementDirection() {
+	protected override void Die() {
+        GameStateManager.instance.Reset();
+	}
+
+	private Vector2 GetMovementDirection() {
         Vector2 direction = characterInput.PlayerControls.Move.ReadValue<Vector2>();
         direction.x -= characterInput.PlayerControls.DiagonalNW.ReadValue<float>();
         direction.y += characterInput.PlayerControls.DiagonalNW.ReadValue<float>();

@@ -5,5 +5,6 @@ public enum EntityType
     Die,
     IndestructibleObj,
     DestructibleObj,
-    NonPhysical
+    NonPhysical,
+    Checkpoint
 }

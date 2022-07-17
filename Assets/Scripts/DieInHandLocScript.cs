@@ -31,5 +31,6 @@ public class DieInHandLocScript : MonoBehaviour
         tempPos.y += Mathf.Sin(Time.fixedTime * Mathf.PI * frequency) * amplitude;
 
         transform.localPosition = tempPos;
+        transform.Rotate(new Vector3(0, degreesPerSecond * Time.deltaTime, 0));
     }
 }

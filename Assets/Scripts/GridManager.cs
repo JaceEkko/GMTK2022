@@ -5,12 +5,12 @@ using UnityEngine;
 public class GridManager : MonoBehaviour {
     [SerializeField] private int width = 50, height = 50;
     private Entity[,] physicalEntityMap;
-    private NonPhysicalEntity[,] nonPhysicalEntityMap;
+    private NonPhysicalEntity[,] nonPhysicalEntityMap, checkpointMap;
     private List<Die> allDice;
 
     [SerializeField] private GameObject tileHighlighter;
 
-    public static GridManager instance { get; private set; }
+    public static GridManager instance;
 
     void Start() {
         if (instance != null)
@@ -22,6 +22,7 @@ public class GridManager : MonoBehaviour {
 
         physicalEntityMap = new Entity[width, height];
         nonPhysicalEntityMap = new NonPhysicalEntity[width, height];
+        checkpointMap = new NonPhysicalEntity[width, height];
         allDice = new List<Die>();
 
         //Sort all entities in the scene into the proper maps and set their grid coordinates
@@ -34,10 +35,15 @@ public class GridManager : MonoBehaviour {
                     allDice.Add((Die)entity);
                     break;
                 case EntityType.NonPhysical: //I don't think any nonphysical tiles should be active on start? But maybe
-                    if (nonPhysicalEntityMap[coords.x, coords.y] != null)
-                        Debug.LogError("Overlap between " + entity.name + " and " + nonPhysicalEntityMap[coords.x, coords.y].name);
-                    else
-                        nonPhysicalEntityMap[coords.x, coords.y] = (NonPhysicalEntity)entity;
+                    if (entity.type == EntityType.Checkpoint) {
+                        checkpointMap[coords.x, coords.y] = (NonPhysicalEntity)entity;
+                    }
+                    else {
+                        if (nonPhysicalEntityMap[coords.x, coords.y] != null)
+                            Debug.LogError("Overlap between " + entity.name + " and " + nonPhysicalEntityMap[coords.x, coords.y].name);
+                        else
+                            nonPhysicalEntityMap[coords.x, coords.y] = (NonPhysicalEntity)entity;
+                    }
                     break;
                 default:
                     if (physicalEntityMap[coords.x, coords.y] != null)
@@ -77,6 +83,12 @@ public class GridManager : MonoBehaviour {
         movingEntity.coords = destination;
         if(moveVisiblePosition)
             movingEntity.UpdatePosition();
+
+        if(movingEntity.type == EntityType.Player) {
+            if(checkpointMap[destination.x, destination.y] != null) {
+                GameStateManager.instance.SetCheckpoint(destination);
+			}
+		}
         return true;
 	}
 
@@ -178,7 +190,7 @@ public class GridManager : MonoBehaviour {
 			}
 		}
 
-        return diceInRange;
+        return dicePickedUp;
     }
 
     public void RemoveEntity(Entity entity) {
