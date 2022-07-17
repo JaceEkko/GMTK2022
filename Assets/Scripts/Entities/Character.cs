@@ -43,6 +43,8 @@ public abstract class Character : MovableEntity
     
     public void AddNewDieToInventory(Die newDie)
     {
+        if (dice.Contains(newDie))
+            return;
         dice.Add(newDie);
         newDie.transform.parent = equippedDieLocation;
         newDie.transform.localPosition = Vector3.zero;

@@ -16,6 +16,7 @@ public abstract class Enemy : Character
     protected List<Die> diceIveThrown = new List<Die>();
 
     private Vector2Int initialPosition;
+    private float initialRotation;
     private List<Die> initialDice;
 
     private void Awake()
@@ -28,6 +29,7 @@ public abstract class Enemy : Character
         player = FindObjectOfType<Player>();
 
         initialPosition = coords;
+        initialRotation = transform.eulerAngles.y;
         initialDice = new List<Die>();
         foreach(Die die in dice) {
             initialDice.Add(die);
@@ -84,6 +86,7 @@ public abstract class Enemy : Character
 
 	protected override void Die() {
         TurnManager.instance.RemoveEnemy(this);
+        hasSeenPlayer = false;
         base.Die();
 	}
 
@@ -91,6 +94,7 @@ public abstract class Enemy : Character
         base.Reset();
         GridManager.instance.PlaceNewEntity(this, initialPosition);
         TurnManager.instance.AddEnemy(this);
+        transform.eulerAngles = new Vector3(0, initialRotation, 0);
 
         foreach(Die die in initialDice) {
             if(die.GetOwner() != null) {

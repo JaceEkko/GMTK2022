@@ -55,6 +55,13 @@ public class TurnManager : MonoBehaviour
         }
     }
 
+    public void StopRound() {
+        StopAllCoroutines();
+	}
+    public void StartRound() {
+        StartCoroutine(RoundStart());
+	}
+
     public void AddPlayer(Player player) {
         allPlayer.Add(player);
 	}

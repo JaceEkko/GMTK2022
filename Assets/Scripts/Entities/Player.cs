@@ -81,6 +81,7 @@ public class Player : Character
     }
 
 	protected override void Die() {
+        SetHealthPoints(initialHP);
         GameStateManager.instance.Reset();
 	}
 
