@@ -39,12 +39,14 @@ public abstract class Enemy : Character
     }
 
 	public override IEnumerator RunTurn() {
-        if(!hasSeenPlayer)
-            LookForPlayer();
-        List<Die> pickedUpDice = GridManager.instance.PickUpAllAdjacentDice(this);
-        foreach (Die die in pickedUpDice) {
-            diceIveThrown.Remove(die);
-            AddNewDieToInventory(die);
+        if (HealthPoints > 0) {
+            if (!hasSeenPlayer)
+                LookForPlayer();
+            List<Die> pickedUpDice = GridManager.instance.PickUpAllAdjacentDice(this);
+            foreach (Die die in pickedUpDice) {
+                diceIveThrown.Remove(die);
+                AddNewDieToInventory(die);
+            }
         }
         yield return null;
 	}
@@ -85,7 +87,6 @@ public abstract class Enemy : Character
 	}
 
 	protected override void Die() {
-        TurnManager.instance.RemoveEnemy(this);
         hasSeenPlayer = false;
         base.Die();
 	}

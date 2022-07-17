@@ -78,7 +78,6 @@ public abstract class Character : MovableEntity
                 y = -1;
 			}
 		}
-
 		base.Die();
 	}
 

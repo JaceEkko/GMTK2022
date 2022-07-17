@@ -28,7 +28,6 @@ public class GameStateManager : MonoBehaviour {
 	}
 
     public void Reset() {
-        Debug.Log("RESET");
         TurnManager.instance.StopRound();
         foreach (Enemy enemy in allEnemies) {
             enemy.gameObject.SetActive(true);
