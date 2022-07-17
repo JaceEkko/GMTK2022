@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IdleEnemy : Enemy {
+public class PatrolEnemy : Enemy {
+	[SerializeField] private Vector2Int[] patrolPoints;
+	private int patrolPointIndex = 0;
+
 	public override IEnumerator RunTurn() {
 		StartCoroutine(base.RunTurn());
 		if (hasSeenPlayer) {
 			//Approach player
-			if (dice.Count > 0 && Vector3.Distance(transform.position, player.transform.position) > desiredDistToPlayer)
+			if (Vector3.Distance(transform.position, player.transform.position) > desiredDistToPlayer)
 				yield return StartCoroutine(MoveTowardsEntity(player));
 			//Think about attacking
 			else {
@@ -32,7 +35,17 @@ public class IdleEnemy : Enemy {
 			}
 		}
 		else {
-			yield return StartCoroutine(SkipTurn());
+			yield return Patrol();
 		}
+	}
+
+	private IEnumerator Patrol() {
+		if(coords == patrolPoints[patrolPointIndex]) {
+			patrolPointIndex++;
+			if (patrolPointIndex >= patrolPoints.Length)
+				patrolPointIndex = 0;
+		}
+
+		yield return MoveTowardsCoords(patrolPoints[patrolPointIndex]);
 	}
 }

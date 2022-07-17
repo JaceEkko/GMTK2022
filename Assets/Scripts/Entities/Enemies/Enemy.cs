@@ -11,6 +11,7 @@ public abstract class Enemy : Character
 
     [Header("Combat Variables")]
     [SerializeField] private List<Die> heldDice;
+    [SerializeField] protected float desiredDistToPlayer = 5;
     protected Player player;
 
     protected List<Die> diceIveThrown = new List<Die>();

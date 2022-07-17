@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BasicChaseEnemy : Enemy {
-	[SerializeField] private float desiredDistToPlayer = 3;
-
 	private bool idledLastTurn = false;
 
 	public override IEnumerator RunTurn() {
 		StartCoroutine(base.RunTurn());
-		if (hasSeenPlayer) {
+		if (dice.Count > 0 && hasSeenPlayer) {
 			//Approach player
 			if (Vector3.Distance(transform.position, player.transform.position) > desiredDistToPlayer)
 				yield return StartCoroutine(MoveTowardsEntity(player));

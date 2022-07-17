@@ -28,16 +28,19 @@ public abstract class MovableEntity : Entity
     }
 
     protected virtual IEnumerator MoveTowardsEntity(Entity target) {
+        yield return MoveTowardsCoords(target.coords);
+    }
+    protected virtual IEnumerator MoveTowardsCoords(Vector2Int targetCoords) {
         Vector2 direction = Vector2.zero;
 
-        if (target.transform.position.x < transform.position.x)
+        if (targetCoords.x < coords.x)
             direction.x = -1;
-        else if (target.transform.position.x > transform.position.x)
+        else if (targetCoords.x > coords.x)
             direction.x = 1;
 
-        if (target.transform.position.z < transform.position.z)
+        if (targetCoords.y < coords.y)
             direction.y = -1;
-        else if (target.transform.position.z > transform.position.z)
+        else if (targetCoords.y > coords.y)
             direction.y = 1;
 
         yield return StartCoroutine(Move(direction));
@@ -64,7 +67,7 @@ public abstract class MovableEntity : Entity
     }
 
     protected virtual IEnumerator AnimateMoveToCoords() {
-        charAnim.SetBool("isMovingAnim", true);
+        //charAnim.SetBool("isMovingAnim", true);
         Vector3 originalPosition = transform.position;
         float timer = 0;
         while(timer < moveDuration) {
@@ -73,7 +76,7 @@ public abstract class MovableEntity : Entity
             timer += Time.deltaTime;
             yield return new WaitForEndOfFrame();
 		}
-        charAnim.SetBool("isMovingAnim", false);
+        //charAnim.SetBool("isMovingAnim", false);
         UpdatePosition();
         IsTakingTurn = false;
     }
