@@ -10,17 +10,49 @@ public abstract class Enemy : Character
     protected bool hasSeenPlayer;
 
     [Header("Combat Variables")]
-    [SerializeField] private int diceThrowRange = 7;
     [SerializeField] private List<Die> heldDice;
     protected Player player;
+
+    protected List<Die> diceIveThrown = new List<Die>();
+
+    private Vector2Int initialPosition;
+    private List<Die> initialDice;
 
     private void Awake()
     {
         type = EntityType.Enemy;
-        player = FindObjectOfType<Player>();
 	}
 
-    protected virtual void LookForPlayer() {
+	protected override void Start() {
+		base.Start();
+        player = FindObjectOfType<Player>();
+
+        initialPosition = coords;
+        initialDice = new List<Die>();
+        foreach(Die die in dice) {
+            initialDice.Add(die);
+		}
+
+        GameStateManager.instance.AddEnemy(this);
+    }
+
+	public override IEnumerator RunTurn() {
+        if(!hasSeenPlayer)
+            LookForPlayer();
+        List<Die> pickedUpDice = GridManager.instance.PickUpAllAdjacentDice(this);
+        foreach (Die die in pickedUpDice) {
+            diceIveThrown.Remove(die);
+            AddNewDieToInventory(die);
+        }
+        yield return null;
+	}
+
+	protected override IEnumerator ThrowDie(Vector2 targetTile) {
+        diceIveThrown.Add(currentDieInHand);
+		return base.ThrowDie(targetTile);
+	}
+
+	protected virtual void LookForPlayer() {
         //Check if player is in range and within vision cone
         float distance = Vector3.Distance(transform.position, player.transform.position);
         float angleToPlayer = Vector3.Angle(player.transform.position - transform.position, transform.forward);
@@ -43,5 +75,29 @@ public abstract class Enemy : Character
     protected virtual IEnumerator SkipTurn() {
         yield return new WaitForEndOfFrame();
         IsTakingTurn = false;
+	}
+
+	public override void SetHealthPoints(float _newHealth) {
+		base.SetHealthPoints(_newHealth);
+        hasSeenPlayer = true;
+	}
+
+	protected override void Die() {
+        TurnManager.instance.RemoveEnemy(this);
+        base.Die();
+	}
+
+	public override void Reset() {
+        base.Reset();
+        GridManager.instance.PlaceNewEntity(this, initialPosition);
+        TurnManager.instance.AddEnemy(this);
+
+        foreach(Die die in initialDice) {
+            if(die.GetOwner() != null) {
+                die.GetOwner().RemoveDie(die);
+                die.SetOwner(this);
+                AddNewDieToInventory(die);
+			}
+		}
 	}
 }

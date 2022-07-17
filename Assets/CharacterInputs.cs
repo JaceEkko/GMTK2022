@@ -98,6 +98,15 @@ public partial class @CharacterInputs : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Skip Turn"",
+                    ""type"": ""Button"",
+                    ""id"": ""d7ce23c8-8f1d-4769-88dd-94efedf45fac"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -342,6 +351,28 @@ public partial class @CharacterInputs : IInputActionCollection2, IDisposable
                     ""action"": ""PickUpDie"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f9f4bc9b-27ce-42e2-ab10-5c29c608027d"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skip Turn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a0e7f7fa-1ac2-4b94-9251-1305422eb907"",
+                    ""path"": ""<Keyboard>/numpad5"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skip Turn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -358,6 +389,7 @@ public partial class @CharacterInputs : IInputActionCollection2, IDisposable
         m_PlayerControls_DiagonalSW = m_PlayerControls.FindAction("Diagonal SW", throwIfNotFound: true);
         m_PlayerControls_EquipDie = m_PlayerControls.FindAction("EquipDie", throwIfNotFound: true);
         m_PlayerControls_PickUpDie = m_PlayerControls.FindAction("PickUpDie", throwIfNotFound: true);
+        m_PlayerControls_SkipTurn = m_PlayerControls.FindAction("Skip Turn", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -425,6 +457,7 @@ public partial class @CharacterInputs : IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerControls_DiagonalSW;
     private readonly InputAction m_PlayerControls_EquipDie;
     private readonly InputAction m_PlayerControls_PickUpDie;
+    private readonly InputAction m_PlayerControls_SkipTurn;
     public struct PlayerControlsActions
     {
         private @CharacterInputs m_Wrapper;
@@ -437,6 +470,7 @@ public partial class @CharacterInputs : IInputActionCollection2, IDisposable
         public InputAction @DiagonalSW => m_Wrapper.m_PlayerControls_DiagonalSW;
         public InputAction @EquipDie => m_Wrapper.m_PlayerControls_EquipDie;
         public InputAction @PickUpDie => m_Wrapper.m_PlayerControls_PickUpDie;
+        public InputAction @SkipTurn => m_Wrapper.m_PlayerControls_SkipTurn;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -470,6 +504,9 @@ public partial class @CharacterInputs : IInputActionCollection2, IDisposable
                 @PickUpDie.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnPickUpDie;
                 @PickUpDie.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnPickUpDie;
                 @PickUpDie.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnPickUpDie;
+                @SkipTurn.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnSkipTurn;
+                @SkipTurn.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnSkipTurn;
+                @SkipTurn.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnSkipTurn;
             }
             m_Wrapper.m_PlayerControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -498,6 +535,9 @@ public partial class @CharacterInputs : IInputActionCollection2, IDisposable
                 @PickUpDie.started += instance.OnPickUpDie;
                 @PickUpDie.performed += instance.OnPickUpDie;
                 @PickUpDie.canceled += instance.OnPickUpDie;
+                @SkipTurn.started += instance.OnSkipTurn;
+                @SkipTurn.performed += instance.OnSkipTurn;
+                @SkipTurn.canceled += instance.OnSkipTurn;
             }
         }
     }
@@ -512,5 +552,6 @@ public partial class @CharacterInputs : IInputActionCollection2, IDisposable
         void OnDiagonalSW(InputAction.CallbackContext context);
         void OnEquipDie(InputAction.CallbackContext context);
         void OnPickUpDie(InputAction.CallbackContext context);
+        void OnSkipTurn(InputAction.CallbackContext context);
     }
 }

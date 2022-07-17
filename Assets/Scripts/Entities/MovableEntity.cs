@@ -40,9 +40,24 @@ public abstract class MovableEntity : Entity
 
         yield return StartCoroutine(Move(direction));
     }
+    protected virtual IEnumerator MoveAwayFromEntity(Entity target) {
+        Vector2 direction = Vector2.zero;
+
+        if (target.transform.position.x < transform.position.x)
+            direction.x = 1;
+        else if (target.transform.position.x > transform.position.x)
+            direction.x = -1;
+
+        if (target.transform.position.z < transform.position.z)
+            direction.y = 1;
+        else if (target.transform.position.z > transform.position.z)
+            direction.y = -1;
+
+        yield return StartCoroutine(Move(direction));
+    }
 
     protected IEnumerator MoveToTile(Vector2 coords) {
-        if (GridManager.instance.MoveTo(this, new Vector2Int((int)coords.x, (int)coords.y)));
+        if (GridManager.instance.MoveTo(this, new Vector2Int((int)coords.x, (int)coords.y)))
             yield return StartCoroutine(AnimateMoveToCoords());
     }
 
@@ -59,6 +74,7 @@ public abstract class MovableEntity : Entity
         IsTakingTurn = false;
     }
     protected virtual IEnumerator SmoothRotate(Vector2Int direction) {
+        /*
         float originalRotation = transform.eulerAngles.y;
         float goalRotation = GridManager.DirectionToDegrees(direction);
         float timer = 0;
@@ -68,6 +84,8 @@ public abstract class MovableEntity : Entity
             timer += Time.deltaTime;
             yield return new WaitForEndOfFrame();
 		}
-        transform.eulerAngles = new Vector3(0, goalRotation, 0);
+        transform.eulerAngles = new Vector3(0, goalRotation, 0);*/
+        transform.eulerAngles = new Vector3(0, GridManager.DirectionToDegrees(direction), 0);
+        yield return null;
 	}
 }

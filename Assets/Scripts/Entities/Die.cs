@@ -20,9 +20,11 @@ public class Die : MovableEntity
 
     public override IEnumerator RunTurn()
     {
-        if(Vector2.Distance(coords, owner.coords) >= 2) {
-            yield return StartCoroutine(MoveTowardsEntity(owner));
-		}
+        if (owner != null) {
+            if (Vector2.Distance(coords, owner.coords) >= 2) {
+                yield return StartCoroutine(MoveTowardsEntity(owner));
+            }
+        }
         yield return new WaitForEndOfFrame();
     }
 
@@ -35,7 +37,7 @@ public class Die : MovableEntity
         RaycastHit hitInfo;
         Vector3 collisionPosition = Vector3.positiveInfinity;
         if (Physics.Raycast(transform.position, destinationIn3D - transform.position, out hitInfo, Vector3.Distance(transform.position, destinationIn3D), ignorePlayerWhenThrown, QueryTriggerInteraction.Ignore)) {
-            Debug.Log("Die collided with " + hitInfo.collider.gameObject.name);
+            //Debug.Log("Die collided with " + hitInfo.collider.gameObject.name);
             collisionPosition = hitInfo.point;
         }
 
@@ -46,6 +48,7 @@ public class Die : MovableEntity
 
             if (collisionPosition != Vector3.positiveInfinity && Vector3.Distance(transform.position, collisionPosition) < 0.1f) {
                 coords = GridManager.WorldspaceToCoords(transform.position);
+                timer = throwDuration;
                 break;
             }
             yield return new WaitForEndOfFrame();
@@ -64,7 +67,7 @@ public class Die : MovableEntity
     public void SetOwner(Character character) {
         owner = character;
 	}
-    public Entity GetOwner() {
+    public Character GetOwner() {
         return owner;
     }
 }

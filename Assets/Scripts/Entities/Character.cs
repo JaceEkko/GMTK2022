@@ -9,7 +9,17 @@ public abstract class Character : MovableEntity
     protected Die currentDieInHand;
     protected int currentDieIndex = 0;
 
-    public void EquipDie(int _dieIndex) {
+	protected override void Start() {
+        base.Start();
+        Die[] heldDice = GetComponentsInChildren<Die>();
+        foreach(Die die in heldDice) {
+            die.SetOwner(this);
+            AddNewDieToInventory(die);
+            GridManager.instance.RemoveEntity(die);
+		}
+	}
+
+	public void EquipDie(int _dieIndex) {
         if(dice.Count < _dieIndex) {
             Debug.LogError("Equipping die index out of range");
             return;
@@ -24,10 +34,11 @@ public abstract class Character : MovableEntity
         //Debug.Log(name + " has selected " + currentDieInHand.name);
     }
 
-    public IEnumerator ThrowDie(Vector2 targetTile) {
-        yield return StartCoroutine(dice[currentDieIndex].BeThrown(targetTile));
+    protected virtual IEnumerator ThrowDie(Vector2 targetTile) {
+        Die thrownDie = currentDieInHand;
+        RemoveDie(currentDieInHand);
+        yield return StartCoroutine(thrownDie.BeThrown(targetTile));
         IsTakingTurn = false;
-        RemoveDie(dice[currentDieIndex]);
 	}
     
     public void AddNewDieToInventory(Die newDie)
@@ -46,5 +57,30 @@ public abstract class Character : MovableEntity
             currentDieInHand = null;
             currentDieIndex = 0;
 		}
+	}
+
+	protected override void Die() {
+        int x = -1;
+        int y = -1;
+        foreach(Die die in dice) {
+            die.SetOwner(null);
+            die.transform.parent = null;
+
+            GridManager.instance.PlaceNewEntity(die, new Vector2Int(coords.x + x, coords.y + y));
+            x++;
+            if (x == 2) {
+                x = -1;
+                y++;
+			}
+            if(y == 2) {
+                y = -1;
+			}
+		}
+
+		base.Die();
+	}
+
+    public virtual void Reset() {
+        SetHealthPoints(initialHP);
 	}
 }

@@ -20,10 +20,9 @@ public class NonAimedDiePower : DiePower
         TwinForkLeft,
         TwinForkRight
     };
-    List<string> patternFileLocs = new List<string>() { "Pattern_Cross.txt" };
     Pattern powerPattern;
 
-    float dieDeactivateTime = 2.0f;
+    [SerializeField] private float dieDeactivateTime = 1.0f;
 
     GameObject hazardPrefab;
 
@@ -36,6 +35,7 @@ public class NonAimedDiePower : DiePower
     public override IEnumerator ActivatePower() {
         Attack(); //initiate attack
         yield return new WaitForSeconds(dieDeactivateTime); //wait a set amount of time before moving on
+        Debug.Log("Waited seconds");
     }
 
     public override void Attack() {

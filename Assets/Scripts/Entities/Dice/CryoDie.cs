@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class CryoDie : Die
 {
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         //Temporarily adding powers to dies
         DiePowers.Add(new NonAimedDiePower(DiePower.DamageType.Cryo, NonAimedDiePower.Pattern.Star, this));
         DiePowers.Add(new NonAimedDiePower(DiePower.DamageType.Cryo, NonAimedDiePower.Pattern.Basic, this));

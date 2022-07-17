@@ -46,12 +46,12 @@ public class TurnManager : MonoBehaviour
             Debug.Log("Round " + currentRound + " Start!!");
             foreach(List<Entity> turnPhase in orderedEntityLists) {
                 foreach(Entity entity in turnPhase) {
-                    Debug.Log(entity.name + " taking turn!");
+                    //Debug.Log(entity.name + " taking turn!");
                     entity.IsTakingTurn = true;
                     yield return StartCoroutine(entity.RunTurn());
 				}
 			}
-            Debug.Log("End Round " + currentRound + "!!");
+            //Debug.Log("End Round " + currentRound + "!!");
         }
     }
 

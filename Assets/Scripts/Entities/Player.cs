@@ -7,8 +7,6 @@ public class Player : Character
 {
     private CharacterInputs characterInput;
 
-    private bool isThrowDiePressed = false;
-
     void Awake()
     {
         type = EntityType.Player;
@@ -21,8 +19,9 @@ public class Player : Character
         characterInput.PlayerControls.EquipDie.performed += OnEquipDice;
     }
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         //Add 3 dice to inventory for testing
         AddNewDieToInventory(Instantiate(Resources.Load("PlasmaDie") as GameObject).GetComponent<Die>());
         AddNewDieToInventory(Instantiate(Resources.Load("CryoDie") as GameObject).GetComponent<Die>());
@@ -55,13 +54,13 @@ public class Player : Character
             if (currentDieInHand != null) {
                 if (characterInput.PlayerControls.ThrowDie.ReadValue<float>() > 0) {
                     yield return StartCoroutine(ThrowDie(GridManager.instance.GetMouseCoords()));
+                    break;
                 }
             }
 
             //Pick up die
             if(characterInput.PlayerControls.PickUpDie.ReadValue<float>() > 0) {
 				Vector2Int mouseCoords = GridManager.instance.GetMouseCoords();
-                //Debug.Log("Mouse = " + mouseCoords);
                 if(Vector2.Distance(mouseCoords, coords) < 2) {
                     List<Die> pickedUpDice = GridManager.instance.PickUpDiceOnTile(mouseCoords, this);
                     foreach (Die die in pickedUpDice)
@@ -73,11 +72,19 @@ public class Player : Character
             if (intendedDirection.magnitude > 0) {
                 yield return StartCoroutine(Move(intendedDirection));
             }
+            else if(characterInput.PlayerControls.SkipTurn.ReadValue<float>() > 0) {
+                IsTakingTurn = false;
+                break;
+			}
             yield return new WaitForEndOfFrame();
         }
     }
 
-    private Vector2 GetMovementDirection() {
+	protected override void Die() {
+        GameStateManager.instance.Reset();
+	}
+
+	private Vector2 GetMovementDirection() {
         Vector2 direction = characterInput.PlayerControls.Move.ReadValue<Vector2>();
         direction.x -= characterInput.PlayerControls.DiagonalNW.ReadValue<float>();
         direction.y += characterInput.PlayerControls.DiagonalNW.ReadValue<float>();
