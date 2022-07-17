@@ -20,11 +20,14 @@ public abstract class Character : MovableEntity
 
         currentDieInHand = dice[_dieIndex];
         currentDieInHand.gameObject.SetActive(true);
+        currentDieIndex = _dieIndex;
         //Debug.Log(name + " has selected " + currentDieInHand.name);
     }
 
-    public IEnumerator ThrowDie() {
-        yield return new WaitForEndOfFrame();
+    public IEnumerator ThrowDie(Vector2 targetTile) {
+        yield return StartCoroutine(dice[currentDieIndex].BeThrown(targetTile));
+        IsTakingTurn = false;
+        RemoveDie(dice[currentDieIndex]);
 	}
     
     public void AddNewDieToInventory(Die newDie)
@@ -33,11 +36,14 @@ public abstract class Character : MovableEntity
         newDie.transform.parent = equippedDieLocation;
         newDie.transform.localPosition = Vector3.zero;
         EquipDie(dice.Count - 1);
+        if (newDie.GetOwner() == null)
+            newDie.SetOwner(this);
     }
     public void RemoveDie(Die die) {
         dice.Remove(die);
         if(die == currentDieInHand) {
             currentDieInHand = null;
+            currentDieIndex = 0;
 		}
 	}
 }

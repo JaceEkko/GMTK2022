@@ -148,6 +148,7 @@ public class GridManager : MonoBehaviour {
             return null;
         switch (type) {
             case EntityType.Die:
+                Debug.LogWarning("Did you mean to use GetDieOnTile instead?"); //todo should all the tilemaps be converted to store lists??
                 foreach(Die die in allDice) {
                     if (die.coords.x == coords.x && die.coords.y == coords.y)
                         return die;
@@ -158,6 +159,22 @@ public class GridManager : MonoBehaviour {
             default:
                 return physicalEntityMap[coords.x, coords.y];
         }
+    }
+    public List<Die> PickUpDiceOnTile(Vector2Int coords, Character checkingEntity = null) {
+        List<Die> diceOnTile = new List<Die>();
+        foreach (Die die in allDice) {
+            if (die.coords.x == coords.x && die.coords.y == coords.y)
+                diceOnTile.Add(die);
+        }
+        List<Die> dicePickedUp = new List<Die>();
+        foreach (Die die in diceOnTile) {
+            Debug.Log("Checking entity for die " + die.name);
+            if (checkingEntity == die.GetOwner() || checkingEntity.type == EntityType.Player) {
+                dicePickedUp.Add(die);
+                allDice.Remove(die);
+            }
+        }
+        return dicePickedUp;
     }
 
 	public Vector2Int GetMouseCoords() {

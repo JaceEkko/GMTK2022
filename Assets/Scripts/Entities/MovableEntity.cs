@@ -42,8 +42,9 @@ public abstract class MovableEntity : Entity
     }
 
     protected IEnumerator MoveToTile(Vector2 coords) {
-        yield return new WaitForEndOfFrame();
-	}
+        if (GridManager.instance.MoveTo(this, new Vector2Int((int)coords.x, (int)coords.y)));
+            yield return StartCoroutine(AnimateMoveToCoords());
+    }
 
     protected virtual IEnumerator AnimateMoveToCoords() {
         Vector3 originalPosition = transform.position;

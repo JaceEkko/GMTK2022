@@ -12,9 +12,14 @@ public class TurnManager : MonoBehaviour
     private List<Entity> allDice = new List<Entity>();
     private List<Entity> otherEntities = new List<Entity>();
     private List<Entity>[] orderedEntityLists;
+    public static TurnManager instance { get; private set; }
 
-    void Start()
-    {
+    void Start() {
+        if (instance != null)
+            Destroy(this);
+        else
+            instance = this;
+
         List<Entity> allEntities = new List<Entity>(FindObjectsOfType<Entity>());
         foreach(Entity entity in allEntities) {
             if(entity.type == EntityType.Player) {

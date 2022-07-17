@@ -11,8 +11,7 @@ GameObject:
   - component: {fileID: 2112301858955584890}
   - component: {fileID: 1153487373657200483}
   - component: {fileID: 4163725612570443284}
-  - component: {fileID: 6909604192803982263}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: DieMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1031034679177354762}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 3746443997496297809}
@@ -84,19 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6909604192803982263
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1031034679177354762}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5884740711823770754
 GameObject:
   m_ObjectHideFlags: 0
@@ -107,7 +93,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3746443997496297809}
   - component: {fileID: 3523163795411749738}
-  m_Layer: 0
+  - component: {fileID: 3980615238248731754}
+  m_Layer: 2
   m_Name: TestDiePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123,7 +110,7 @@ Transform:
   m_GameObject: {fileID: 5884740711823770754}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2112301858955584890}
@@ -147,4 +134,17 @@ MonoBehaviour:
   moveDuration: 0.1
   turnDuration: 0.1
   dieName: TestDie
-  dieMesh: {fileID: 1031034679177354762}
+  throwDuration: 0.1
+--- !u!65 &3980615238248731754
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5884740711823770754}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}

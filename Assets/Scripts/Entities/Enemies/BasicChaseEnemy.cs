@@ -8,7 +8,6 @@ public class BasicChaseEnemy : Enemy {
 	private bool idledLastTurn = false;
 
 	public override IEnumerator RunTurn() {
-		Debug.Log("Starting");
 		LookForPlayer();
 		if (hasSeenPlayer) {
 			if (Vector3.Distance(transform.position, player.transform.position) > desiredDistToPlayer)
